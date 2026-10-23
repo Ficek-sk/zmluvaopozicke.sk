@@ -19,10 +19,15 @@
     "nette/utils": "^2.4",
     "latte/latte": "2.10.8",
     "tracy/tracy": "^2.4",
-    "uestla/recaptcha-control": "^7.0",
-    "mpdf/mpdf": "^7.1"
+    "mpdf/mpdf": "^7.1",
+    "ext-curl": "*"
   },
   "minimum-stability": "stable",
   "require-dev": {
+  },
+  "config": {
+    "platform": {
+      "php": "7.1.33"
+    }
   }
 }

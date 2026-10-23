@@ -22,9 +22,6 @@ database:
 session:
 		expiration: 14 days
 
-extensions:
-	recaptcha: ReCaptchaControl\DI\Extension
-
 services:
     authenticator: Authenticator
     routerFactory: RouterFactory
@@ -39,12 +36,12 @@ services:
     - App\Model\SystemModel\LegalCounselQuestion
     - App\Model\SystemModel\LegalCounselQuestionAnswer
     - App\Model\SystemModel\LegalCounselQuestionRelatedUrl
+    - App\Modules\Recaptcha\RecaptchaVerifier(%recaptcha.secret%)
+    -
+        class: App\Modules\Recaptcha\RecaptchaFormExtension(%recaptcha.site%)
+        setup:
+            - register('addReCaptcha')
+        tags: [run]
 
 includes:
     - parameters.neon
-
-recaptcha:
-	siteKey: '%recaptcha.site%'
-	secretKey: '%recaptcha.secret%'
-	methodName: 'addReCaptcha'
-	requester: ReCaptchaControl\Http\Requester\CurlRequester

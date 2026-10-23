@@ -96,7 +96,8 @@ class Authenticator implements Security\IAuthenticator {
 	* Generuje nový salt
 	*/
 	public static function generateSalt() {
-  	return base64_encode(mcrypt_create_iv(24, MCRYPT_DEV_URANDOM));
+  	// mcrypt is gone in PHP 7.2; random_bytes() reads the same OS random source
+  	return base64_encode(random_bytes(24));
 	}
 
 	/**
