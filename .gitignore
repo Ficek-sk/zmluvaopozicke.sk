@@ -1,0 +1,5 @@
+vendor
+temp/*
+log/*
+.idea
+app/config/parameters.neon

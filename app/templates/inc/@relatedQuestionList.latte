@@ -1,0 +1,12 @@
+<ul class="list-unstyled">
+    {foreach $relatedQuestions as $relatedQuestion}
+        <li class="mb-10">
+            <a href="{$relatedQuestion['url']}" title="{$relatedQuestion['title']}" style="font-size: 22px;">
+                {$relatedQuestion['title']}
+            </a>
+            {if $relatedQuestion['snippet']}
+                <p style="max-width: 85%">{$relatedQuestion['snippet']}</p>
+            {/if}
+        </li>
+    {/foreach}
+</ul>

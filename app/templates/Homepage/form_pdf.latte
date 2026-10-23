@@ -1,0 +1,486 @@
+{block content}
+
+  <div>
+        <h2 class="centerAlign">Zmluva o pôžičke</h2>
+        <p class="centerAlign">(zmluva o pôžičke podľa § 657 a nasl. Občianskeho zákonníka)</p>
+
+        {if $form->v_form == "fon"}
+
+          <div class="row">
+            <span>Veriteľ: <span class="form-value">
+            {if $form->v_name != '......................................'}<strong>{/if}{$form->v_name}{if $form->v_name != '......................................'}</strong>{/if},
+
+	    </span> nar.: <span class="form-value">
+            {if $form->v_date_of_birdth != '......................................'}<strong>{/if}
+            {$form->v_date_of_birdth}{if $form->v_date_of_birdth != '......................................'}</strong>{/if},
+
+            </span>trvalý pobyt: <span class="form-value">
+
+            {if $form->v_home != '......................................'}<strong>{/if}
+            {$form->v_home}{if $form->v_home != '......................................'}</strong>{/if},
+	    
+            </span> občianstvo: <span class="form-value">
+
+            {if $form->v_citizenship != '......................................'}<strong>{/if}
+            {$form->v_citizenship}{if $form->v_citizenship != '......................................'}</strong>{/if},
+
+            </span>iné údaje:<span class="form-value">
+
+            {if $form->v_other != '......................................'}<strong>{/if}
+                                {$form->v_other}{if $form->v_other != '......................................'}</strong>{/if}
+                </span></span>
+          </div>
+
+        {elseif $form->v_form == 'fop'}
+
+          <div class="row">
+            <span>Veriteľ: <span class="form-value">
+
+            {if $form->v_company != '......................................'}<strong>{/if}
+              {$form->v_company}{if $form->v_company != '......................................'}</strong>{/if},
+
+            </span>IČO: <span class="form-value">
+            {if $form->v_ico != '......................................'}<strong>{/if}
+            {$form->v_ico}{if $form->v_ico != '......................................'}</strong>{/if},
+
+            </span>sídlo: <span class="form-value">
+            {if $form->v_residence != '......................................'}<strong>{/if}
+            {$form->v_residence}{if $form->v_residence != '......................................'}</strong>{/if}</span>,
+
+            </span>iné údaje:<span class="form-value">
+            {if $form->v_fop_other != '......................................'}<strong>{/if}
+                      {$form->v_fop_other}{if $form->v_other != '......................................'}</strong>{/if}
+                </span>
+              </span>
+          </div>
+        {else}
+          <div class="row">
+                <span>Veriteľ: <span class="form-value">
+
+                {if $form->v_po_company != '......................................'}<strong>{/if}
+                            {$form->v_po_company}{if $form->v_po_company != '......................................'}</strong>{/if},
+                </span> IČO: <span class="form-value">
+                {if $form->v_po_ico != '......................................'}<strong>{/if}
+                            {$form->v_po_ico}{if $form->v_po_ico != '......................................'}</strong>{/if},
+                </span> sídlo: <span class="form-value">
+
+                {if $form->v_po_residence != '......................................'}<strong>{/if}
+                            {$form->v_po_residence}{if $form->v_po_residence != '......................................'}</strong>{/if},</span>
+                    </span>
+               zast.: <span class="form-value">
+                    {if $form->v_po_representative != '......................................'}<strong>{/if}
+                      {$form->v_po_representative}{if $form->v_po_representative != '......................................'}</strong>{/if},</span>
+
+              {if $form->v_po_other != '......................................'}
+              iné údaje: <span class="form-value"><strong>{$form->v_po_other}</strong></span>{/if}</span>
+              </span>
+          </div>
+        {/if}
+
+        <div class="row paddingBottom">
+          <br/>
+          <span>(ďalej len "veriteľ")</span>
+        </div>
+
+        {if $form->d_counter<1}
+
+          {if $form->d_form == "fon"}
+
+            <div class="row">
+              <span> Dlžník:
+                  {if $form->d_name != '......................................'}
+                  <strong>{/if}{$form->d_name}{if $form->d_name != '......................................'}</strong>{/if},
+		  </span>
+                  nar.:<span class="form-value"> {if $form->d_date_of_birdth != '......................................'}
+                    <strong>{/if}
+                        {$form->d_date_of_birdth}{if $form->d_date_of_birdth != '......................................'}</strong>{/if},
+			</span>
+
+                trvalý pobyt:
+                <span class="form-value"> {if $form->d_home != '......................................'}
+                    <strong>{/if}
+                        {$form->d_home}{if $form->d_home != '......................................'}</strong>{/if},
+                </span>
+
+                občianstvo:<span class="form-value"> {if $form->d_citizenship != '......................................'}
+                    <strong>{/if}{$form->d_citizenship}{if $form->d_citizenship != '......................................'}</strong>{/if}</span>,
+                {if $form->d_other != '......................................'}
+                    iné údaje: <span class="form-value">
+                    <strong>{$form->d_other}</strong></span>{/if}
+                </span>
+            </div>
+
+          {elseif $form->d_form == "fop"}
+
+            <div class="row">
+              <span> Dlžník: <span class="form-value">{if $form->d_company != '......................................'}<strong>{/if}{$form->d_company}
+              {if $form->d_company != '......................................'}</strong>{/if},</span>
+        IČO: <span class="form-value">{if $form->d_ico != '......................................'}<strong>{/if}{$form->d_ico}{if $form->d_ico != '......................................'}</strong>{/if},</span>
+        sídlo: <span class="form-value">{if $form->d_residence != '......................................'}<strong>{/if}{$form->d_residence}{if $form->d_residence != '......................................'}</strong>{/if}</span>{if $form->d_form == "po"},</span>
+        zast.: <span class="form-value">{if $form->d_representative != '......................................'}<strong>{/if}{$form->d_representative}
+        {if $form->d_representative != '......................................'}</strong>{/if}</span>{/if}
+        {if $form->d_fop_other != '......................................'},
+        iné údaje: <span class="form-value"><strong>{$form->d_fop_other}</strong></span>{/if}</span>
+            </div>
+
+              {else}
+
+              <div class="row">
+                        <span> Dlžník:<span class="form-value">{if $form->d_po_company != '......................................'}<strong>{/if}
+                                    {$form->d_po_company}{if $form->d_po_company != '......................................'}</strong>{/if},</span>
+                            IČO: <span class="form-value">{if $form->d_po_ico != '......................................'}<strong>{/if}{$form->d_po_ico}{if $form->d_po_ico != '......................................'}</strong>{/if},</span>
+                            sídlo: <span class="form-value">{if $form->d_po_residence != '......................................'}<strong>{/if}{$form->d_po_residence}{if $form->d_po_residence != '......................................'}</strong>{/if},</span></span>
+                  zast.: <span class="form-value">{if $form->d_po_representative != '......................................'}<strong>{/if}{$form->d_po_representative}{if $form->d_po_representative != '......................................'}</strong>{/if}</span>{if $form->d_po_other != '......................................'},
+                  iné údaje: <span class="form-value"><strong>{$form->d_po_other}</strong></span>{/if}</span>
+                  </span>
+              </div>
+
+          {/if}
+
+        {else}
+
+
+
+          {if $form->d_form == "fon"}
+
+            <div class="row">
+              <span> Dlžník 1: {if $form->d_name != '......................................'}<strong>{/if}{$form->d_name}
+        {if $form->d_name != '......................................'}</strong>{/if}</span>,
+        nar.: <span class="form-value">{if $form->d_date_of_birdth != '......................................'}<strong>{/if}
+        {$form->d_date_of_birdth}{if $form->d_date_of_birdth != '......................................'}</strong>{/if}</span>,
+                trvalý pobyt: <span class="form-value">{if $form->d_home != '......................................'}<strong>{/if}
+        {$form->d_home}{if $form->d_home != '......................................'}</strong>{/if},</span>
+        občianstvo: <span class="form-value">{if $form->d_citizenship != '......................................'}<strong>{/if}{$form->d_citizenship}{if $form->d_citizenship != '......................................'}</strong>{/if}</span>{if $form->d_other != '......................................'},
+        iné údaje: <span class="form-value"><strong>{$form->d_other}</strong></span>{/if}</span>
+            </div>
+
+          {elseif $form->d_form == "fop"}
+
+              <div class="row">
+              <span> Dlžník 1: <span class="form-value">{if $form->d_company != '......................................'}<strong>{/if}{$form->d_company}
+                          {if $form->d_company != '......................................'}</strong>{/if},</span>
+        IČO: <span class="form-value">{if $form->d_ico != '......................................'}<strong>{/if}{$form->d_ico}{if $form->d_ico != '......................................'}</strong>{/if},</span>
+        sídlo: <span class="form-value">{if $form->d_residence != '......................................'}<strong>{/if}{$form->d_residence}{if $form->d_residence != '......................................'}</strong>{/if}</span>{if $form->d_form == "po"},</span>
+                  zast.: <span class="form-value">{if $form->d_representative != '......................................'}<strong>{/if}{$form->d_representative}
+                          {if $form->d_representative != '......................................'}</strong>{/if}</span>{/if}
+                  {if $form->d_fop_other != '......................................'},
+                  iné údaje: <span class="form-value"><strong>{$form->d_fop_other}</strong></span>{/if}</span>
+              </div>
+
+          {else}
+
+            <div class="row">
+              <span> Dlžník 1: <span class="form-value">{if $form->d_po_company != '......................................'}<strong>{/if}
+        {$form->d_po_company}{if $form->d_po_company != '......................................'}</strong>{/if},</span>
+        IČO: <span class="form-value">{if $form->d_po_ico != '......................................'}<strong>{/if}{$form->d_po_ico}{if $form->d_po_ico != '......................................'}</strong>{/if},</span>
+        sídlo: <span class="form-value">{if $form->d_po_residence != '......................................'}<strong>{/if}{$form->d_po_residence}{if $form->d_po_residence != '......................................'}</strong>{/if}</span>{if $form->d_form == "po"}</span>,
+        zast.: <span class="form-value">{if $form->d_po_representative != '......................................'}<strong>{/if}{$form->d_po_representative}{if $form->d_po_representative != '......................................'}</strong>{/if}</span>{/if}{if $form->d_po_other != '......................................'},
+        iné údaje: <span class="form-value"><strong>{$form->d_po_other}</strong></span>{/if}</span>
+              </span>
+            </div>
+
+          {/if}
+
+          {for $i=1; $i<=$form->d_counter; $i++}
+
+                    <br/>
+
+                    {if $form["d_form$i"] == "fon"}
+
+                      <div class="row">
+                        <span> Dlžník {$i+1}:{if $form["d_name$i"] != '......................................'}<strong>{/if}
+            {$form["d_name$i"]}{if $form["d_name$i"] != '......................................'}</strong>{/if},</span>
+            nar.: <span class="form-value">{if $form["d_date_of_birdth$i"] != '......................................'}<strong>{/if}
+            {$form["d_date_of_birdth$i"]}{if $form["d_date_of_birdth$i"] != '......................................'}</strong>{/if},</span>
+                          trvalý pobyt: <span class="form-value">{if $form["d_home$i"] != '......................................'}<strong>{/if}
+            {$form["d_home$i"]}{if $form["d_home$i"] != '......................................'}</strong>{/if},</span>
+            občianstvo: <span class="form-value">{if $form["d_citizenship$i"] != '......................................'}<strong>{/if}{$form["d_citizenship$i"]}{if $form["d_citizenship$i"] != '......................................'}</strong>{/if}</span>{if $form["d_other$i"] != '......................................'},
+            iné údaje: <span class="form-value"><strong>{$form["d_other$i"]}</strong></span>{/if}</span>
+                      </div>
+
+                    {elseif $form["d_form$i"] == "fop"}
+
+                      <div class="row">
+                        <span> Dlžník {$i+1}:<span class="form-value">{if $form["d_company$i"] != '......................................'}<strong>{/if}
+            {$form["d_company$i"]}{if $form["d_company$i"] != '......................................'}</strong>{/if},</span>
+            IČO: <span class="form-value">{if $form["d_ico$i"] != '......................................'}<strong>{/if}{$form["d_ico$i"]}{if $form["d_ico$i"] != '......................................'}</strong>{/if}</span>,
+            sídlo: <span class="form-value">{if $form["d_residence$i"] != '......................................'}<strong>{/if}{$form["d_residence$i"]}{if $form["d_residence$i"] != '......................................'}</strong>{/if}</span>{if $form["d_fop_other$i"] != '......................................'},
+            iné údaje: <span class="form-value"><strong>{$form["d_fop_other$i"]}</strong></span>{/if}</span>
+                        </span>
+                      </div>
+
+                        {else}
+
+                        <div class="row">
+                        <span> Dlžník {$i+1}:<span class="form-value">{if $form["d_po_company$i"] != '......................................'}<strong>{/if}
+                                    {$form["d_po_company$i"]}{if $form["d_po_company$i"] != '......................................'}</strong>{/if}</span>,
+                            IČO: <span class="form-value">{if $form["d_po_ico$i"] != '......................................'}<strong>{/if}{$form["d_po_ico$i"]}{if $form["d_po_ico$i"] != '......................................'}</strong>{/if}</span>,
+                            sídlo: <span class="form-value">{if $form["d_po_residence$i"] != '......................................'}<strong>{/if}{$form["d_po_residence$i"]}{if $form["d_po_residence$i"] != '......................................'}</strong>{/if},</span></span>
+                            zast.: <span class="form-value">{if $form["d_po_representative$i"] != '......................................'}<strong>{/if}{$form["d_po_representative$i"]}{if $form["d_po_representative$i"] != '......................................'}</strong>{/if}</span>{if $form["d_po_other$i"] != '......................................'},
+                            iné údaje: <span class="form-value"><strong>{$form["d_po_other$i"]}</strong></span>{/if}</span>
+                            </span>
+                        </div>
+
+                    {/if}
+
+          {/for}
+
+        {/if}
+
+        {if $form->d_counter>0}
+
+          <br/>
+          <div class="row form row paddingBottom">
+            <br/>
+            <span>(vyššie uvedení dlžníci sú v ďalšom texte označovaní spoločne jednotným číslom ako "dlžník" a zaväzujú sa uhradiť dlh veriteľovi spoločne a nerozdielne)</span>
+          </div>
+
+        {/if}
+
+        <div class="row form row paddingBottom">
+            <br/>
+            <span>(ďalej len "dlžník")</span>
+        </div>
+
+        <div class="row paddingBottom">
+          <span>(ďalej spolu aj ako "zmluvné strany")</span>
+        </div>
+
+        <p class="clanok-title">čl. I.</p>
+        <p class="clanok-title">Predmet zmluvy o pôžičke</p>
+
+         <div class="row">
+            <span>Predmetom tejto zmluvy o pôžičke je požičanie peňazí vo výške:
+            <span class="form-value">
+              {if $form->dept_amount != '......................................'}
+              <strong>{/if}
+              {$form->dept_amount}
+              {if $form->dept_amount != '......................................'}</strong>{/if}
+              </span> (slovom: <span class="form-value">
+              {if $form->dept_words != '......................................'}<strong>{/if}
+              {$form->dept_words}{if $form->dept_words != '......................................'}</strong>{/if}</span>)
+                dlžníkovi veriteľom za podmienok uvedených v tejto zmluve.</span>
+          </div>
+
+        <div class="row paddingBottom">
+            (ďalej len „dlh“)
+          </div>
+
+        <p class="clanok-title">čl. II.</p>
+        <p class="clanok-title">Spôsob poskytnutia peňazí</p>
+
+        <div class="row paddingBottom">
+          {if $form->money_receiving_form=="hotovost"}
+          <span>Pôžička vo výške uvedenej v článku I. tejto zmluvy o pôžičke bola poskytnutá dlžníkovi pred podpisom tejto zmluvy v hotovosti. Dlžník prehlasuje a svojim podpisom potvrdzuje prevzatie sumy uvedenej v článku I. tejto zmluvy o pôžičke.
+          </span>
+          {elseif $form->money_receiving_form=="prevodom"}
+          <span>Pôžička vo výške uvedenej v článku I. tejto zmluvy o pôžičke bude poskytnutá dlžníkovi prevodom na ním uvedený bankový účet č.
+           {if $form->money_receiving_account != '......................................'}<strong>{/if}{$form->money_receiving_account}{if $form->money_receiving_account != '......................................'}</strong>{/if}.</span>
+		  {elseif $form->money_receiving_form=="hotovost_prevodom"}
+		  	 Pôžička podľa článku I. tejto zmluvy o pôžičke sa poskytuje v dvoch častiach.
+			 Prvá časť vo výške {if $form->money_receiving_part_cash_price}<strong>{$form->money_receiving_part_cash_price}</strong>{else}......................................{/if} (slovom: {if $form->money_receiving_part_cash_price_word}<strong>{$form->money_receiving_part_cash_price_word}</strong>{else}......................................{/if}) bola poskytnutá dlžníkovi pred podpisom tejto zmluvy o pôžičke v hotovosti a dlžník svojim podpisom potvrdzuje prevzatie uvedenej sumy.
+			 Druhá časť vo výške {if $form->money_receiving_part_transfer_price}<strong>{$form->money_receiving_part_transfer_price}</strong>{else}......................................{/if} (slovom: {if $form->money_receiving_part_transfer_price_word}<strong>{$form->money_receiving_part_transfer_price_word}</strong>{else}......................................{/if}) bude poskytnutá dlžníkovi prevodom na ním uvedený bankový účet č. {if $form->money_receiving_part_transfer_account}<strong>{$form->money_receiving_part_transfer_account}</strong>{else}......................................{/if}.
+          {/if}
+        </div>
+
+        <p class="clanok-title">čl. III.</p>
+        <p class="clanok-title">Zmluvný úrok</p>
+
+
+        <div class="row paddingBottom">
+        {if $form->urok_form=="bezurocne"}
+          <span>Zmluvné strany sa dohodli, že dlžník vráti veriteľovi požičanú sumu bezúročne.</span>
+        {else}
+          <span>Zmluvné strany sa dohodli, že dlžník zaplatí veriteľovi za poskytnutie pôžičky odmenu (zmluvný úrok) vo výške
+          {if $form->urok_amount != '......................................'}<strong>{/if}{$form->urok_amount}{if $form->urok_amount != '......................................'}</strong>{/if}.
+		  Celková suma, t.j. požičaná suma spolu s odmenou (zmluvným úrokom), ktorú dlžník vráti veriteľovi v lehote splatnosti podľa článku IV. tejto zmluvy o pôžičke bude
+          {if $form->urok_total_dept != '......................................'}<strong>{/if}
+          {$form->urok_total_dept}
+          {if $form->urok_total_dept != '......................................'}</strong>{/if}
+           (slovom:
+           {if $form->urok_total_dept_words != '......................................'}<strong>{/if}
+           {$form->urok_total_dept_words}{if $form->urok_total_dept_words != '......................................'}</strong>{/if}).
+          </span>
+        {/if}
+      </div>
+
+       <p class="clanok-title">čl. IV.</p>
+      <p class="clanok-title">Vrátenie pôžičky</p>
+
+      <div class="row paddingBottom">
+      {if $form->paying_form=="onetime"}
+      <span>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh jednorazovo v lehote do {if $form->onetime_day != '......................................'}<strong>{/if}{$form->onetime_day}{if $form->onetime_day != '......................................'}</strong>{/if}.</span>
+      {else}
+
+        {if $form->payments_kind=="monthly"}
+        <span>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh v splátkach:</span><br />
+        <span>Dlžník sa zaväzuje uhradiť dlh veriteľovi v pravidelných mesačných splátkach vo výške
+        {if $form->monthly_amount != '......................................'}<strong>{/if}
+        {$form->monthly_amount}
+        {if $form->monthly_amount != '......................................'}</strong>{/if}
+         vždy
+         {if $form->monthly_day != '......................................'}<strong>{/if}
+         {$form->monthly_day}.
+         {if $form->monthly_day != '......................................'}</strong>{/if}
+        Prvá splátka je splatná {if $form->first_monthly_payment}<strong>{$form->first_monthly_payment}</strong>{else}......................................{/if}. V prípade, ak sa dlžník omešká s čo i len s jednou splátkou, stáva sa splatným celý dlh.
+		</span>
+
+        {else}
+
+        <span>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh v splátkach :</span>
+        <span>Dlžník bude splácať dlh v splátkach nasledovne:
+        {if $form->other != '......................................'}<strong>{/if}
+        {$form->other}{if $form->other != '......................................'}</strong>{/if}.
+		V prípade, ak sa dlžník omešká s čo i len s jednou splátkou, stáva sa splatným celý dlh.</span>
+        {/if}
+
+      {/if}
+    </div>
+
+     <div class="row paddingBottom">
+      {if $form->return_form == "hotovost"}
+      <span>2/ Zmluvné strany sa dohodli, že dlžník vráti dlh veriteľovi v hotovosti v mieste bydliska veriteľa.</span>
+      {else}
+      <span>2/ Zmluvné strany sa dohodli, že dlžník vráti dlh veriteľovi prevodom na číslo účtu: {if $form->return_account != '......................................'}<strong>{/if}{$form->return_account}{if $form->return_account != '......................................'}</strong>{/if}.</span>
+      {/if}
+
+     </div>
+
+      <div class="row form-row">
+
+           <p class="clanok-title">čl. V.</p>
+        <p class="clanok-title">Ďalšie práva a povinnosti</p>
+
+          <div class="row paddingBottom">
+
+           Zmluvné strany sa dohodli, že v prípade, ak sa dlžník dostane do omeškania so zaplatením dlhu, dlžník sa zaväzuje uhradiť veriteľovi zákonný úrok z omeškania podľa zákona č. 40/1964 Zb. Občiansky zákonník v znení neskorších predpisov a to odo dňa nasledujúceho po dni splatnosti dlhu až do úplného zaplatenia.
+          </div>
+
+		    <div class="row paddingBottom">
+			<span>{$form->dalsie_dojednania}</span>
+            </div>
+
+          <p class="clanok-title">čl. VI.</p>
+        <p class="clanok-title">Záverečné ustanovenia</p>
+
+          <div class="row paddingBottom">
+            1. Pre každého účastníka tejto zmluvy o pôžičke je vyhotovený jeden rovnopis zmluvy. Zmluvné strany sa dohodli, že túto zmluvu o pôžičke je možné meniť iba očíslovaným písomným dodatkom podpísaným oboma zmluvnými stranami, ktorý sa stane neoddeliteľnou súčasťou tejto zmluvy o pôžičke.
+          </div>
+
+		  <div class="row paddingBottom">
+           2. Zmluvné strany prehlasujú, že vyššie uvedená adresa (uvedená pri ich mene) je adresou, na ktorej preberajú poštové zásielky. V prípade, ak ktorákoľvek zmluvná strana zásielku neprevezme (alebo sa vráti ako nedoručená), táto sa považuje za doručenú okamihom vrátenia odosielateľovi. Toto platí aj pre rozhodcovské konanie.
+          </div>
+
+          <div class="row paddingBottom">
+            3. Zmluvné strany sa dohodli, že všetky spory, ktoré vzniknú z tejto zmluvy budú riešené (písomne a zrýchlenou formou) rozhodcom ustanoveným do funkcie "vybranou osobou" podľa § 6 ods. 3 zákona č. 244/2002 Z.z. o rozhodcovskom konaní a to spoločnosťou Rozhodcovské konanie SR s.r.o, so sídlom: Žilinská 14, 81105 Bratislava (www.rsba.sk) podľa pravidiel zverejnených v Obchodnom vestníku č. 96/2016, značka: O000260. Rozhodcovské konanie bude vedené v súlade s právnymi predpismi SR a to jedným rozhodcom. Rozhodcom v spore môže byť aj štatutárny orgán vybranej osoby. Strany sa podrobia rozhodcovskému konaniu a rozhodnutiu.</div>
+
+           <div class="row paddingBottom" style="padding-bottom:50px;">
+            4. Dlžník a veriteľ potvrdzujú, že si zmluvu o pôžičke riadne prečítali, obsahu zmluvy o pôžičke rozumejú a na znak súhlasu ju podpisujú. Obe zmluvné strany prehlasujú, že zmluvu o pôžičke uzatvorili slobodne a vážne.
+          </div>
+
+          <div class="row paddingBottom" style="padding-bottom:40px;">
+            <span>V <span class="form-value">
+            {if $form->sign_place != '......................................'}<strong>{/if}
+            {$form->sign_place}
+            {if $form->sign_place != '......................................'}</strong>{/if},
+            </span>
+			<span>dňa <span class="form-value">
+            {if $form->sign_date != '......................................'}<strong>{/if}
+            {$form->sign_date}
+            {if $form->sign_date != '......................................'}</strong>{/if}
+            </span>
+
+		  </div>
+
+          <div class="row" class="cont">
+			<div style="float:left; text-align: center;width: 150px">
+				{for $i=0; $i <= $form->d_counter; $i++}
+					{var $num = $i == 0 ? '' : $i}
+					<div {if $i > 0}style="margin-top: 60px;"{/if}>...................................</div>
+					{if $form['d_form'.$num] == 'fon'}
+						 {if $form['d_name'.$num] != '......................................'}
+							<div>{$form['d_name'.$num]}</div>
+						 {/if}
+					{elseif $form['d_form'.$num] == 'fop'}
+						{if $form['d_company'.$num] != '......................................'}
+							<div>{$form['d_company'.$num]}</div>
+						{/if}
+					{else}
+						 {if $form['d_po_company'.$num] != '......................................'}
+							<div>{$form['d_po_company'.$num]}</div>
+						{/if}
+						 {if $form['d_po_representative'.$num] != '......................................'}
+							<div>zast. {$form['d_po_representative'.$num]}</div>
+						{/if}
+					{/if}
+
+					<div>Dlžník{if $form->d_counter > 0} {$i+1}{/if}</div>
+				{/for}
+			</div>
+
+			<div style="float:right; text-align: center;width: 150px;">
+				<div>...................................</div>
+				{if $form['v_form'] == 'fon'}
+					 {if $form->v_name != '......................................'}
+						<div>{$form['v_name']}</div>
+					 {/if}
+				{elseif $form['v_form'] == 'fop'}
+					{if $form->v_company != '......................................'}
+						<div>{$form['v_company']}</div>
+					{/if}
+				{else}
+					 {if $form->v_company != '......................................'}
+						<div>{$form['v_po_company']}</div>
+					{/if}
+					 {if $form->v_representative != '......................................'}
+						<div>zast. {$form['v_po_representative']}</div>
+					{/if}
+				{/if}
+				<div>Veriteľ</div>
+			</div>
+		  </div>
+
+        </div><!--/span-->
+
+</div>
+
+<style>
+
+  body {
+    font-family: arial, sans-serif;
+    font-size: 14px;
+  }
+
+  .centerAlign {
+    width:100%;
+    text-align: center;
+  }
+
+  .paddingBottom {
+    padding-bottom: 15px;
+  }
+
+  .row {
+    width:100%;
+    float:left;
+    text-align: justify;
+  }
+
+  span.form-value {
+    margin:0 !important;
+    padding: 0 !important;
+  }
+
+  .strong-input {
+    font-weight: bold;
+  }
+
+  .clanok-title {
+            width:100%;
+            text-align: center;
+            font-weight: bold;
+            line-height: 10px;
+
+          }
+</style>
+{/block}

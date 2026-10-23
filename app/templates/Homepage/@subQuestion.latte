@@ -1,0 +1,25 @@
+<sub><strong>PODOTÁZKA</strong></sub>
+<h2>{$question['name']}</h2>
+<p>
+    {$subQuestion['text']|noescape}
+</p>
+{foreach $subQuestionAnswers as $subQuestionAnswer}
+    {if $subQuestionAnswer['user_id']}
+        <div class="ml-30">
+            <sub><strong>ODPOVEĎ</strong></sub>
+            <h2 class="mb-0">{$question['name']}</h2>
+            <sup>(odpoveď odoslaná: {$subQuestion['answered']|date:"d.m.Y"})</sup>
+        </div>
+    {else}
+        <h2>Podotázka: {$question['name']}</h2>
+    {/if}
+    <div class="ml-30">
+    {$subQuestionAnswer['text']|noescape}
+        <br />
+        <p>
+            Odpovedal: JUDr. Milan Ficek, advokát,  Bratislava<br />
+            <a href="https://ficek.sk" target="_blank">www.ficek.sk</a>
+        </p>
+    </div>
+    <br/>
+{/foreach}

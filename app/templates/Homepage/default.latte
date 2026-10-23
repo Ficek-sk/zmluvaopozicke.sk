@@ -1,0 +1,430 @@
+{block content}
+	<div class="row">
+		<div class="col-md-8">
+			<!-- Contract -->
+		  <div class="contract">
+				{form contract autocomplete => off}
+					<h2 class="title fadeIn">Zmluva o pôžičke</h2>
+					<p class="subtitle text-center fadeIn">(podľa § 657 a nasl. Občianskeho zákonníka)</p>
+
+					<!-- Step 1 -->
+					<div class="step" id="step-1">
+						<div class="step-title" data-step="1">Vyberte veriteľa a vyplňte jeho údaje</div>
+
+						<div class="form-creditor">
+							<div class="form-group">
+								<label class="form-label">Typ veriteľa</label>
+
+								<div class="form-select">
+									{input v_form}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label">Údaje veriteľa</label>
+
+								<div class="fon">
+									<div class="form-cell">{input v_name}</div>
+									<div class="form-cell">{input v_date_of_birdth}</div>
+									<div class="form-cell">{input v_home}</div>
+								  	<div class="form-cell">{input v_citizenship}</div>
+									<div class="form-cell">{input v_other}</div>
+								</div>
+
+								<div class="fop hide-this">
+									<div class="form-cell">{input v_company}</div>
+									<div class="form-cell">{input v_ico}</div>
+									<div class="form-cell">{input v_residence}</div>
+									<div class="form-cell">{input v_fop_other}</div>
+								</div>
+
+								<div class="po hide-this">
+									<div class="form-cell">{input v_po_company}</div>
+									<div class="form-cell">{input v_po_ico}</div>
+									<div class="form-cell">{input v_po_residence}</div>
+									<div class="form-cell">{input v_po_representative}</div>
+									<div class="form-cell">{input v_po_other}</div>
+								</div>
+							</div>
+						</div>
+
+						<p class="note">(ďalej len "veriteľ")</p>
+					</div>
+
+					<!-- Step 2 -->
+					<div class="step" id="step-2">
+						<div class="step-title" data-step="2">Vyberte dlžníka a vyplňte jeho údaje</div>
+
+						<div class="form-debtor">
+							<div class="form-group">
+								<label class="form-label">Typ dlžníka</label>
+
+								<div class="form-select">
+									{input d_form}
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="form-label">Údaje dlžníka</label>
+
+								<div class="fon">
+									<div class="form-cell">{input d_name}</div>
+									<div class="form-cell">{input d_date_of_birdth}</div>
+									<div class="form-cell">{input d_home}</div>
+									<div class="form-cell">{input d_citizenship}</div>
+									<div class="form-cell">{input d_other}</div>
+								</div>
+
+								<div class="fop hide-this">
+									<div class="form-cell">{input d_company}</div>
+									<div class="form-cell">{input d_ico}</div>
+									<div class="form-cell">{input d_residence}</div>
+									<div class="form-cell">{input d_fop_other}</div>
+								</div>
+
+								<div class="po hide-this">
+									<div class="form-cell">{input d_po_company}</div>
+									<div class="form-cell">{input d_po_ico}</div>
+									<div class="form-cell">{input d_po_residence}</div>
+									<div class="form-cell">{input d_po_representative}</div>
+									<div class="form-cell">{input d_po_other}</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-buttons text-center mb-30">
+							<a class="remove-debtor btn btn-md btn-remove hidden">
+								<ion-icon name="remove-circle"></ion-icon> Odobrať dlžníka
+							</a>
+
+							<a class="add-debtor btn btn-md btn-primary">
+								<ion-icon name="add-circle"></ion-icon> Pridať dlžníka
+							</a>
+						</div>
+
+						{input d_counter}
+
+						<p class="note">(ďalej len "dlžník")</p>
+						<p class="note">(ďalej spolu aj ako "zmluvné strany")</p>
+					</div>
+
+					<!-- Step 3 -->
+					<div class="step" id="step-3">
+						<div class="step-title" data-step="3">Vyplňte údaje o pôžičke</div>
+
+						<h3 class="step-subtitle">čl. I. <br> Predmet zmluvy o pôžičke</h3>
+
+						<p>Predmetom tejto zmluvy o pôžičke je požičanie peňazí vo výške:</p>
+
+						<div class="form-cell price">{input dept_amount}</div>{include '@currency.latte', 'name' => 'dept_amount'} (slovom: <div class="form-cell">{input dept_words}</div>) dlžníkovi veriteľom za podmienok uvedených v tejto zmluve.
+					</div>
+
+					<!-- Step 4 -->
+					<div class="step" id="step-4">
+						<div class="step-title mb-0" data-step="4">Údaje o poskytnutí peňazí</div>
+
+						<div class="information">V prípade, ak už boli peniaze poskytnuté dlžníkovi vopred (v hotovosti alebo prevodom) a potrebujete k tomu doklad - zmluvu, vytvorte si uznanie dlhu na stránke: <a href="http://www.uznanie-dlhu.sk/">www.uznanie-dlhu.sk</a></div>
+
+						<h3 class="step-subtitle">čl. II. <br> Spôsob poskytnutia peňazí</h3>
+
+						<div class="form-group form-group-radio">
+							<p class="select-subtitle">Vyberte spôsob poskytnutia peňazí (v hotovosti / bankovým prevodom):</p>
+
+							<div class="form-radio">
+								{* {input money_receiving_form} *}
+
+								{* Custom rendering for radio inputs *}
+								{foreach $form[money_receiving_form]->items as $key => $label}
+							    {input money_receiving_form:$key}
+									{label money_receiving_form:$key /}
+									<br>
+								{/foreach}
+							</div>
+						</div>
+
+						<div class="hotovost hide-this show-this">Pôžička vo výške uvedenej v článku I. tejto zmluvy bola poskytnutá dlžníkovi pred podpisom tejto zmluvy o pôžičke v hotovosti. Dlžník prehlasuje a svojim podpisom potvrdzuje prevzatie sumy uvedenej v článku I. tejto zmluvy.</div>
+
+						<div class="prevodom hide-this">Pôžička vo výške uvedenej v článku I. tejto zmluvy bude poskytnutá dlžníkovi prevodom na ním uvedený bankový účet č. <div class="form-cell">{input money_receiving_account}</div></div>
+
+						<div class="hotovost_prevodom hide-this">
+							<p>Pôžička podľa článku I. tejto zmluvy o pôžičke sa poskytuje v dvoch častiach:</p>
+
+							<div class="mb-20">Prvá časť vo výške <div class="form-cell price">{input money_receiving_part_cash_price}</div>{include '@currency.latte', 'name' => 'money_receiving_part_cash_price'} (slovom: <div class="form-cell">{input money_receiving_part_cash_price_word}</div>) bola poskytnutá dlžníkovi pred podpisom tejto zmluvy o pôžičke v hotovosti a dlžník svojim podpisom na tejto zmluve potvrdzuje prevzatie uvedenej sumy.</div>
+
+							<div>Druhá časť vo výške <div class="form-cell price">{input money_receiving_part_transfer_price}</div>{include '@currency.latte', 'name' => 'money_receiving_part_transfer_price'} (slovom: <div class="form-cell">{input money_receiving_part_transfer_price_word}</div>) bude poskytnutá dlžníkovi prevodom na ním uvedený bankový účet č. <div class="form-cell">{input money_receiving_part_transfer_account}</div></div>
+						</div>
+					</div>
+
+					<!-- Step 5 -->
+					<div class="step" id="step-5">
+						<div class="step-title" data-step="5">Odmena za poskytnutie peňazí</div>
+
+						<h3 class="step-subtitle">čl. III. <br>	Zmluvný úrok</h3>
+
+						<div class="form-group form-group-radio">
+							<p class="select-subtitle">Vyberte, či dlžník vráti pôžičku bezúročne alebo s úrokom (odmenou za poskytnutie pôžičky):</p>
+
+							<div class="form-radio">
+								{* {input urok_form} *}
+
+								{* Custom rendering for radio inputs *}
+								{foreach $form[urok_form]->items as $key => $label}
+							    {input urok_form:$key}
+									{label urok_form:$key /}
+									<br>
+								{/foreach}
+							</div>
+						</div>
+
+						<div class="bezurocne hide-this show-this">Zmluvné strany sa dohodli, že dlžník vráti veriteľovi požičanú sumu bezúročne.</div>
+
+						<div class="s_urokom hide-this">
+							Zmluvné strany sa dohodli, že dlžník zaplatí veriteľovi za poskytnutie pôžičky odmenu (zmluvný úrok) vo výške <div class="form-cell">{input urok_amount}</div>
+
+							<div class="mt-20">Celková suma, t.j. požičaná suma spolu s odmenou (zmluvným úrokom), ktorú dlžník vráti veriteľovi podľa článku IV. tejto zmluvy o pôžičke bude <div class="form-cell price">{input urok_total_dept}</div>{include '@currency.latte', 'name' => 'urok_total_dept'}  (slovom: <div class="form-cell">{input urok_total_dept_words}</div>)</div>
+						</div>
+					</div>
+
+					<!-- Step 6 -->
+					<div class="step" id="step-6">
+						<div class="step-title" data-step="6">Údaje o splácaní pôžičky</div>
+
+						<h3 class="step-subtitle">čl. IV. <br> Vrátenie dlhu</h3>
+
+						<div class="form-group form-group-radio">
+							<p class="select-subtitle">Vyberte ako dlžník vráti dlh (jednorazovo / v splátkach):</p>
+
+							<div class="form-radio">
+								{* {input paying_form} *}
+
+								{* Custom rendering for radio inputs *}
+								{foreach $form[paying_form]->items as $key => $label}
+							    {input paying_form:$key}
+									{label paying_form:$key /}
+									<br>
+								{/foreach}
+							</div>
+						</div>
+
+						<div class="onetime hide-this show-this">
+							<p>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh jednorázovo v lehote do</p>
+
+							<div class="form-cell">{input onetime_day}</div>
+						</div>
+
+						<div class="payments hide-this">
+							<div class="form-group form-group-radio">
+								<p class="select-subtitle">Vyberte, či budú splátky mesačné (v mesačnom intervale) alebo iné ako mesačné:</p>
+
+								<div class="form-radio">
+									{* {input payments_kind} *}
+
+									{* Custom rendering for radio inputs *}
+									{foreach $form[payments_kind]->items as $key => $label}
+								    {input payments_kind:$key}
+										{label payments_kind:$key /}
+										<br>
+									{/foreach}
+								</div>
+							</div>
+
+							<div class="monthly hide-this show-this">
+								<p>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh v splátkach:</p>
+
+								<p>Dlžník sa zaväzuje uhradiť dlh veriteľovi v pravidelných mesačných splátkach vo výške</p>
+
+								<div class="form-cell price">{input monthly_amount}</div>{include '@currency.latte', 'name' => 'monthly_amount'} vždy <div class="form-select select-monthly form-cell">{input monthly_day}</div>
+
+								Prvá splátka je splatná <div class="form-cell">{input first_monthly_payment}</div>
+
+								<p class="mt-20">V prípade, ak sa dlžník omešká s čo i len s jednou splátkou, stáva sa splatným celý dlh.</p>
+							</div>
+
+							<div class="other hide-this">
+								<p>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh v splátkach:</p>
+
+								<p>Dlžník bude splácať dlh v splátkach nasledovne:</p>
+
+								{input other rows => 3}
+
+								<p class="mt-20">V prípade, ak sa dlžník omešká s čo i len s jednou splátkou, stáva sa splatným celý dlh.</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Step 7 -->
+					<div class="step" id="step-7">
+						<div class="step-title" data-step="7">Spôsob vrátenia pôžičky</div>
+
+						<div class="form-group form-group-radio">
+							<p class="select-subtitle">Vyberte spôsob, ako dlžník vráti dlh (v hotovosti / bankovým prevodom):</p>
+
+							<div class="form-radio">
+								{* {input return_form} *}
+
+								{* Custom rendering for radio inputs *}
+								{foreach $form[return_form]->items as $key => $label}
+									{input return_form:$key}
+									{label return_form:$key /}
+									<br>
+								{/foreach}
+							</div>
+						</div>
+
+						<div class="hotovost hide-this show-this">2/ Zmluvné strany sa dohodli, že dlžník vráti dlh veriteľovi v hotovosti v mieste bydliska veriteľa.</div>
+
+						<div class="prevodom hide-this">
+							<p>2/ Zmluvné strany sa dohodli, že dlžník vráti dlh veriteľovi prevodom na číslo účtu:</p>
+
+							<div class="form-cell">{input return_account}</div>
+						</div>
+					</div>
+
+					<!-- Stpe 8 -->
+					<div class="step" id="step-8">
+						<div class="step-title" data-step="8">Ďalšie dojednania (voliteľné)</div>
+
+						<h3 class="step-subtitle">čl. V. <br>	Ďalšie práva a povinnosti</h3>
+
+						<p>Zmluvné strany sa dohodli, že v prípade, ak sa dlžník dostane do omeškania so zaplatením dlhu, dlžník sa zaväzuje uhradiť veriteľovi zákonný úrok z omeškania podľa zákona č. 40/1964 Zb. Občiansky zákonník v znení neskorších predpisov a to odo dňa nasledujúceho po dni splatnosti dlhu až do úplného zaplatenia.</p>
+
+						<div>
+							<p class="select-subtitle mt-30">V prípade, ak sa chcete s dlžníkom dohodnúť na ďalších podmienkach zmluvy, vložte ich sem:</p>
+
+							{input dalsie_dojednania rows => 5}
+					  </div>
+
+					</div>
+
+					<!-- Step 9 -->
+					<div class="step" id="step-9">
+						<div class="step-title" data-step="9">​Vyplňte miesto a dátum podpisu</div>
+
+						<h3 class="step-subtitle">čl. VI. <br> Záverečné ustanovenia</h3>
+
+						<p class="mb-20">1. Pre každého účastníka tejto zmluvy o pôžičke je vyhotovený jeden rovnopis zmluvy. Zmluvné strany sa dohodli, že túto zmluvu o pôžičke je možné meniť iba očíslovaným písomným dodatkom podpísaným oboma zmluvnými stranami, ktorý sa stane neoddeliteľnou súčasťou tejto zmluvy o pôžičke.</p>
+
+						<p class="mb-20">2. Zmluvné strany prehlasujú, že vyššie uvedená adresa (uvedená pri ich mene) je adresou, na ktorej preberajú poštové zásielky. V prípade, ak ktorákoľvek zmluvná strana zásielku neprevezme (alebo sa vráti ako nedoručená), táto sa považuje za doručenú okamihom vrátenia odosielateľovi. Toto platí aj pre rozhodcovské konanie.</p>
+
+						<p class="mb-20">3. Zmluvné strany sa dohodli, že všetky spory, ktoré vzniknú z tejto zmluvy budú riešené (písomne a zrýchlenou formou) rozhodcom ustanoveným do funkcie "vybranou osobou" podľa § 6 ods. 3 zákona č. 244/2002 Z.z. o rozhodcovskom konaní a to spoločnosťou Rozhodcovské konanie SR s.r.o, so sídlom: Žilinská 14, 81105 Bratislava (www.rsba.sk) podľa pravidiel zverejnených v Obchodnom vestníku č. 96/2016, značka: O000260. Rozhodcovské konanie bude vedené v súlade s právnymi predpismi SR a to jedným rozhodcom. Rozhodcom v spore môže byť aj štatutárny orgán vybranej osoby. Strany sa podrobia rozhodcovskému konaniu a rozhodnutiu.</p>
+
+						<p class="mb-20">4. Dlžník a veriteľ potvrdzujú, že si zmluvu o pôžičke riadne prečítali, obsahu zmluvy o pôžičke rozumejú a na znak súhlasu ju podpisujú. Obe zmluvné strany prehlasujú, že zmluvu o pôžičke uzatvorili slobodne a vážne.</p>
+
+						<div class="form-date text-center mt-40 mb-20">
+							V <div class="form-cell">{input sign_place}</div>
+							dňa <div class="form-cell">{input sign_date}</div>
+						</div>
+					</div>
+
+					<!-- Step 10 -->
+					<div class="step" id="step-10">
+						<div class="step-title" data-step="10">Stiahnutie a odoslanie zmluvy o pôžičke</div>
+
+						<p>Ak si prajete odoslať vytvorenú zmluvu o pôžičke na Vašu emailovú adresu, vyplňte ju prosím tu:</p>
+						{input send_by_email}
+
+					<div class="col-sm-12 text-center">
+						<center>
+                            {input captcha}
+						</center>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="info-box">
+								
+								<div class="row">
+									<div class="col-sm-10 col-sm-offset-1">
+										<a href="https://ficek.sk/spripomienkovanie-zmluvy" target="_blank" class="btn btn-primary btn-block mt-10">
+											<i class="fa fa-check"></i> Skontrolovať advokátom
+										</a>
+									</div>
+								</div>
+							</div>
+							<center>
+							<a class="mt-10 download-submit btn btn-sm btn-success">
+								<i class="fa fa-file-download"></i> Stiahnuť zadarmo
+							</a>
+							</center>
+						</div>
+					</div>
+				</div>
+				{/form}
+		  </div>
+		</div>
+		<div class="col-sm-4">
+			<div class="contract right-box">
+				<h3 class="step-subtitle fadeIn">Chceli by ste zmluvu skontrolovať?</h3>
+					<div class="row">
+						<div class="col-xs-3 col-xs-offset-2 text-right">
+							<img src="{$photoUrl}" alt="JUDr. Milan Ficek" class="img-responsive img-circle">
+						</div>
+						<div class="col-xs-7 text-left">
+							<strong>JUDr. Milan Ficek</strong><br />
+							<sup>Advokát</sup><br />
+						</div>
+                        <div class="col-sm-12 office-info">
+                            <center>
+                                Advokátska kancelária <strong>Ficek & Ficeková</strong><br />
+                                Sídlo: <strong>Žilinská 14, 81105 Bratislava</strong>
+                            </center>
+
+                        </div>
+					</div>
+			</div>
+
+			<div class="contract right-box">
+				<h3 class="step-subtitle fadeIn">Najnovšie odpovede</h3>
+
+				{if isset($recentQuestions)}
+					{foreach $recentQuestions as $recentQuestion}
+						<a href="/{$recentQuestion['slug']}">
+							{$recentQuestion['name']}<br />
+							<sup>{$recentQuestion['answered']|date:'%d.%m.%Y'}</sup>
+						</a>
+						<br />
+					{/foreach}
+				{/if}
+
+			</div>
+
+			<div class="contract right-box" n:syntax="off">
+				<h3 class="step-subtitle fadeIn">Reklama</h3>
+				
+					<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:300px;height:600px"
+					     data-ad-client="ca-pub-2097002536307787"
+					     data-ad-slot="9300802558"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+
+
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:300px;height:600px"
+					     data-ad-client="ca-pub-2097002536307787"
+					     data-ad-slot="9300802558"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:300px;height:600px"
+					     data-ad-client="ca-pub-2097002536307787"
+					     data-ad-slot="9300802558"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+
+					<ins class="adsbygoogle"
+					     style="display:inline-block;width:300px;height:600px"
+					     data-ad-client="ca-pub-2097002536307787"
+					     data-ad-slot="9300802558"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+			</div>
+		</div>
+	</div>
+{/block}

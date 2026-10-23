@@ -1,0 +1,50 @@
+parameters:
+	recaptcha:
+		url: https://www.google.com/recaptcha/api/siteverify
+
+php:
+	date.timezone: Europe/Prague
+	# zlib.output_compression: yes
+
+application:
+	errorPresenter: Error
+
+database:
+	default:
+		dsn: 'mysql:host=%database.host%;dbname=%database.dbname%'
+		user: '%database.user%'
+		password: '%database.password%'
+	systemDatabase:
+		dsn: 'mysql:host=%contractReview.host%;dbname=%contractReview.dbname%'
+		user: '%contractReview.user%'
+		password: '%contractReview.password%'
+
+session:
+		expiration: 14 days
+
+extensions:
+	recaptcha: ReCaptchaControl\DI\Extension
+
+services:
+    authenticator: Authenticator
+    routerFactory: RouterFactory
+    formRepository: FormRepository
+    messageRepository: MessageRepository
+    router: @routerFactory::createRouter
+    emailSender: EmailSender
+    userRepository: UserRepository
+    dlznikRepository: DlznikRepository
+    contractReviewManager: ContractReviewManager
+    - App\Model\SystemModel\SystemContext(@database.systemDatabase.context)
+    - App\Model\SystemModel\LegalCounselQuestion
+    - App\Model\SystemModel\LegalCounselQuestionAnswer
+    - App\Model\SystemModel\LegalCounselQuestionRelatedUrl
+
+includes:
+    - parameters.neon
+
+recaptcha:
+	siteKey: '%recaptcha.site%'
+	secretKey: '%recaptcha.secret%'
+	methodName: 'addReCaptcha'
+	requester: ReCaptchaControl\Http\Requester\CurlRequester

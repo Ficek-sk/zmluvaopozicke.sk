@@ -1,0 +1,22 @@
+{block #content}
+
+<div class="content-container">
+  <h2>Obnova hesla</h2>
+  <p>Prosím zadajte svoje prihlasovacie meno.</p>
+
+  {form forgottenPasswordForm}
+    <div class="forgotten-form">
+        {control $form errors}
+
+        <div class="pair">
+          <span>{label username /}</span>
+          <div class="input">{input username}</div>
+          <!--<div id="username-error"></div>-->
+        </div>
+
+        <div class="pair">
+          <div class="input" class="ajax">{input send}</div>
+        </div>
+    </div>
+  {/form}
+</div>

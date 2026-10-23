@@ -1,0 +1,64 @@
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+  }
+
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin bg-shadow() {
+  background: $white;
+	border-radius: 12px;
+  box-shadow: 0 0 40px 3px rgba(0,0,0,.2);
+}
+
+@mixin gradient($primary: $gradient-primary, $middle: $gradient-middle, $secondary: $gradient-secondary) {
+	background: $primary;
+  background-image: linear-gradient(to bottom left, $primary, $middle, $secondary);
+}
+
+@mixin gradient-footer($primary: $gradient-footer-primary, $secondary: $gradient-footer-secondary) {
+	background: $primary;
+  background-image: linear-gradient(to bottom left, $primary, $secondary);
+}
+
+@mixin btn-gradient($primary: $btn-primary, $secondary: $btn-primary-gradient) {
+  background: $primary;
+  background: linear-gradient(to top right, $primary 0%, $secondary 100%);
+}
+
+@mixin overlay($location: "header") {
+  position: relative;
+	background-size: cover;
+	background-attachment: fixed;
+	background-color: $primary;
+	background-image: url('../images/header-bg.jpg');
+
+  .gradient {
+		position: absolute;
+    width: 100%;
+    height: 100%;
+		top: 0;
+    z-index: 0;
+
+    @if $location == "header" {
+      opacity: .9;
+		  @include gradient;
+    }
+    @else {
+      opacity: .95;
+      @include gradient-footer;
+    }
+	}
+}

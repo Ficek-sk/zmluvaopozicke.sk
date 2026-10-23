@@ -1,0 +1,22 @@
+parameters:
+    email:
+        host:
+        username:
+        password:
+        setFrom:
+    recaptcha:
+        site: '6LehWgUTAAAAAHzNA1TF5BAOkk9f6LZ4pdpbxtyw'
+        secret: '6LehWgUTAAAAAIgSnFusvRv1HIUc0OCQeq3oGe5v'
+        methodName: 'addReCaptcha'
+    database:
+    	host: ''
+    	dbname: ''
+    	user: ''
+    	password: ''
+    contractReview:
+            host: ''
+            dbname: ''
+            user: ''
+            password: ''
+            websiteId: 1
+            reviewWebsiteUrl: 'http://ficek.local/contract/?contractNumber='

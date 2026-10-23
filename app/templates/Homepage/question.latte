@@ -1,0 +1,145 @@
+{block description}{$question['text']|stripHtml|trim|truncate: 156, ''}{/block}
+
+{define head}
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+{/define}
+
+{block content}
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="contract">
+                <div class="step pt-30">
+                    <sub><strong>OTÁZKA</strong></sub>
+                    <h2>{$question['name']}</h2>
+                    <p>{$question['text']|noescape}</p>
+                    <div class="clearfix"></div>
+
+                    <div class="ml-30">
+                        <sub><strong>ODPOVEĎ</strong></sub>
+                        <h2>{$question['name']}</h2>
+                        {foreach $answers as $answer}
+                            <p>
+                                {$answer['text']|noescape}
+                            </p>
+                        {/foreach}
+                        <br />
+                        <p>
+                        Odpovedal: JUDr. Milan Ficek, advokát,  Bratislava<br />
+                        <a href="https://ficek.sk" target="_blank">www.ficek.sk</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {foreach $subQuestions as $subQuestion}
+                <div class="contract mt-20">
+                    <div class="step">
+                        {include '@subQuestion.latte',
+                        'subQuestion' => $subQuestion['subQuestion'],
+                        'subQuestionAnswers' => $subQuestion['answers']
+                        }
+                    </div>
+                </div>
+            {/foreach}
+
+            <div class="hr"></div>
+	        <br />
+
+            {if count($relatedQuestions) > 0}
+                <div class="contract">
+                    <div class="step pt-30">
+                <span class="text-bigger">
+                    <strong style="font-size: 19px;">Príbuzné otázky v PRÁVNICKEJ PORADNI:</strong>
+                </span><br/>
+                        {include '../inc/@relatedQuestionList.latte'}
+                        <br/>
+                    </div>
+                </div>
+            {/if}
+        </div>
+
+        <div class="col-sm-4">
+            <div class="contract right-box">
+                <h3 class="step-subtitle fadeIn">Chceli by ste zmluvu skontrolovať?</h3>
+                <div class="row">
+                    <div class="col-xs-3 col-xs-offset-2 text-right">
+                        <img src="{$photoUrl}" alt="JUDr. Milan Ficek" class="img-responsive img-circle">
+                    </div>
+                    <div class="col-xs-7 text-left">
+                        <strong>JUDr. Milan Ficek</strong><br />
+                        <sup>Advokát</sup><br />
+                    </div>
+                    <div class="col-sm-12 office-info">
+                        <center>
+                            Advokátska kancelária <strong>Ficek & Ficeková</strong><br />
+                            Sídlo: <strong>Žilinská 14, 81105 Bratislava</strong>
+                        </center>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="contract right-box text-center pb-10">
+                <h3 class="step-subtitle fadeIn">Máte otázku??</h3>
+                <a href="https://admin.ficek.sk/online-pravna-poradna?webId=2" class="btn btn-success btn-sm">
+                    Položiť otázku advokátovi
+                </a>
+            </div>
+
+            <div class="contract right-box">
+                <h3 class="step-subtitle fadeIn">Najnovšie odpovede</h3>
+
+                {if isset($recentQuestions)}
+                    {foreach $recentQuestions as $recentQuestion}
+                        <a href="/{$recentQuestion['slug']}">
+                            {$recentQuestion['name']}<br />
+                            <sup>{$recentQuestion['answered']|date:'%d.%m.%Y'}</sup>
+                        </a>
+                        <br />
+                    {/foreach}
+                {/if}
+
+            </div>
+
+            <div class="contract right-box" n:syntax="off">
+                <h3 class="step-subtitle fadeIn">Reklama</h3>
+
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:600px"
+                     data-ad-client="ca-pub-2097002536307787"
+                     data-ad-slot="9300802558"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:600px"
+                     data-ad-client="ca-pub-2097002536307787"
+                     data-ad-slot="9300802558"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:600px"
+                     data-ad-client="ca-pub-2097002536307787"
+                     data-ad-slot="9300802558"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:300px;height:600px"
+                     data-ad-client="ca-pub-2097002536307787"
+                     data-ad-slot="9300802558"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+{/block}
+

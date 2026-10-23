@@ -1,0 +1,119 @@
+.nice-select {
+  line-height: 45px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: all .3s ease-in-out;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: 50%;
+    right: 30px;
+    margin-top: -7px;
+    border-bottom: 2px solid rgba($primary, .8);
+    border-right: 2px solid rgba($primary, .8);
+    pointer-events: none;
+    transform: rotate(45deg);
+    transform-origin: 66% 66%;
+    transition: all 0.15s ease-in-out;
+  }
+
+  &.open {
+    @extend :active;
+
+    &:after {
+      transform: rotate(-135deg);
+    }
+
+    .list {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  &.disabled {
+    color: lighten($dark, 20);
+    pointer-events: none;
+
+    &:after {
+      border-color: lighten($dark, 20);
+    }
+  }
+
+  &.right {
+    float: right;
+
+    .list {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  .list {
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 0;
+    margin-top: 10px;
+    background: $white;
+    border: 1px solid $input-border-focus;
+    opacity: 0;
+    z-index: 9;
+    overflow: hidden;
+    border-radius: 12px;
+    pointer-events: none;
+    transform-origin: 50% 0;
+    transform: scale(.75) translateY(- 45px / 2);
+    transition: all .2s cubic-bezier(0.5, 0, 0, 1.25), opacity .15s ease-out;
+
+    &:hover .option:not(:hover) {
+      background: transparent;
+    }
+  }
+
+  .option {
+    cursor: pointer;
+    font-weight: 400;
+    line-height: 45px;
+    min-height: 45px;
+    padding: 0 20px;
+    transition: all 0.2s;
+
+    &:hover, &.focus, &.selected.focus {
+      color: $primary;
+      background: $input-bg;
+    }
+
+    &.selected {
+      font-weight: 600;
+    }
+
+    &.disabled {
+      background: transparent;
+      color: lighten($dark, 20);
+      cursor: default;
+    }
+  }
+}
+
+// Use display instead of opacity for IE <= 10
+.no-csspointerevents .nice-select {
+  .list {
+    display: none;
+  }
+
+  &.open {
+    .list {
+      display: block;
+    }
+  }
+}

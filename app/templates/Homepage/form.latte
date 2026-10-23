@@ -1,0 +1,162 @@
+{var $robots = noindex}
+{block title}Vzor č. {$form->id}{/block}
+
+{block content}
+  <div class="content contract">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2 class="title">Zmluva o pôžičke vzor č. {$form->id}</h2>
+        <p class="subtitle text-center">(zmluva o pôžičke podľa § 657 a nasl. Občianskeho zákonníka)</p>
+
+        <p class="document-title">Začiatok dokumentu - Zmluva o pôžičke</p>
+
+        {if $form->v_form == "fon"}
+          <p>Veriteľ: {$form->v_name}, nar.: {$form->v_date_of_birdth}, bydlisko: {$form->v_home}, občianstvo: {$form->v_citizenship}
+
+          {if $form->v_other != '......................................'}
+          , iné údaje: {$form->v_other}
+          {/if}
+          </p>
+        {else}
+          <p>Veriteľ: {$form->v_company}, IČO: {$form->v_ico}, sídlo: {$form->v_residence}
+
+          {if $form->v_form == "po"}
+          , zast.: {$form->v_representative}
+          {/if}
+          {if $form->v_other != '......................................'}
+          , iné údaje: {$form->v_other}
+          {/if}
+          </p>
+        {/if}
+
+        <p class="note mb-40">(ďalej len "veriteľ")</p>
+
+        {if $form->d_form == "fon"}
+          <p>Dlžník {if count($dlznici) > 0}1{/if}: {$form->d_name}, nar.: {$form->d_date_of_birdth}, bydlisko: {$form->d_home}, občianstvo: {$form->d_citizenship}
+
+          {if $form->d_other != '......................................'}
+          , iné údaje: {$form->d_other}
+          {/if}
+          </p>
+        {else}
+          <p>Dlžník {if count($dlznici) > 0}1{/if}: {$form->d_company}, IČO: {$form->d_ico}, sídlo: {$form->d_residence}
+
+          {if $form->d_form == "po"}
+          , zast.: {$form->d_representative}
+          {/if}
+          {if $form->d_other != '......................................'}
+          , iné údaje: {$form->d_other}
+          {/if}
+          </p>
+        {/if}
+
+        {php $i = 1 }
+        {foreach $dlznici as $dlznik}
+        {php $i++ }
+          {if $form->d_form == "fon"}
+            <p>Dlžník {$i}: {$dlznik->name}, nar.: {$dlznik->date_of_birdth}, bydlisko: {$dlznik->home}, občianstvo: {$dlznik->citizenship}
+
+            {if $dlznik->other != '......................................'}
+            , iné údaje: {$dlznik->other}
+            {/if}
+            </p>
+          {else}
+            <p> Dlžník {$i}: {$dlznik->company}, IČO: {$dlznik->ico}, sídlo: {$dlznik->residence}
+
+            {if $dlznik->form == "po"}
+            , zast.: {$dlznik->representative}
+            {/if}
+            {if $dlznik->other != '......................................'}
+            , iné údaje: {$dlznik->other}
+            {/if}
+            </p>
+          {/if}
+        {/foreach}
+
+        {if count($dlznici) > 0}
+          <p>(vyššie uvedení dlžníci sú v ďalšom texte označovaní spoločne jednotným číslom ako "dlžník" a sú zaviazaní voči veriteľovi spoločne a nerozdielne)</p>
+        {/if}
+
+        <p class="note">(ďalej len "dlžník")</p>
+        <p class="note">(ďalej spolu aj ako "zmluvné strany")</p>
+
+        <h3 class="step-subtitle">čl. I. <br> Predmet zmluvy o pôžičke</h3>
+        <p>Predmetom tejto zmluvy o pôžičke je požičanie peňazí vo výške: <strong>{$form->dept_amount}</strong> (slovom: <strong>{$form->dept_words}</strong>) dlžníkovi veriteľom za podmienok uvedených v tejto zmluve.</p>
+
+        <p class="note">(ďalej len „dlh“)</p>
+
+        <h3 class="step-subtitle">čl. II. <br> Spôsob poskytnutia peňazí</h3>
+
+        {if $form->money_receiving_form == "hotovost"}
+        <p>Pôžička vo výške uvedenej v článku I. tejto zmluvy o pôžičke bola poskytnutá dlžníkovi pred podpisom tejto zmluvy v hotovosti. Dlžník prehlasuje a svojim podpisom potvrdzuje prevzatie sumy uvedenej v článku I. tejto zmluvy o pôžičke.</p>
+
+        {elseif $form->money_receiving_form == "prevodom"}
+        <p>Pôžička vo výške uvedenej v článku I. tejto zmluvy o pôžičke bude poskytnutá dlžníkovi prevodom na ním uvedený bankový účet č. <strong>{$form->money_receiving_account}</strong>.</p>
+
+        {elseif $form->money_receiving_form == "hotovost_prevodom"}
+          <p>Pôžička podľa článku I. tejto zmluvy o pôžičke sa poskytuje v dvoch častiach. Prvá časť vo výške {if $form->money_receiving_part_cash_price}<strong>{$form->money_receiving_part_cash_price}</strong>{else}......................................{/if} (slovom: {if $form->money_receiving_part_cash_price_word}<strong>{$form->money_receiving_part_cash_price_word}</strong>{else}......................................{/if}) bola poskytnutá dlžníkovi pred podpisom tejto zmluvy o pôžičke v hotovosti a dlžník svojim podpisom potvrdzuje prevzatie tejto sumy.<p>
+
+          <p>Druhá časť vo výške {if $form->money_receiving_part_transfer_price}<strong>{$form->money_receiving_part_transfer_price}</strong>{else}......................................{/if} (slovom: {if $form->money_receiving_part_transfer_price_word}<strong>{$form->money_receiving_part_transfer_price_word}</strong>{else}......................................{/if}) bude poskytnutá dlžníkovi prevodom na ním uvedený bankový účet č. {if $form->money_receiving_part_transfer_account}<strong>{$form->money_receiving_part_transfer_account}</strong>{else}......................................{/if}.</p>
+        {/if}
+
+        <h3 class="step-subtitle">čl. III. <br> Zmluvný úrok</h3>
+
+        {if $form->urok_form == "bezurocne"}
+          <p>Zmluvné strany sa dohodli, že dlžník vráti veriteľovi požičanú sumu bezúročne.</p>
+        {else}
+          <p>Zmluvné strany sa dohodli, že dlžník zaplatí veriteľovi za poskytnutie pôžičky odmenu (zmluvný úrok) vo výške <strong>{$form->urok_amount}</strong>. Celková suma, t.j. požičaná suma spolu s odmenou (zmluvným úrokom), ktorú dlžník vráti veriteľovi v lehote splatnosti podľa článku IV. tejto zmluvy o pôžičke bude <strong>{$form->urok_total_dept}</strong> (slovom: <strong>{$form->urok_total_dept_words}</strong>).</p>
+        {/if}
+
+        <h3 class="step-subtitle">čl. IV. <br> Vrátenie dlhu</h3>
+
+        {if $form->paying_form == "onetime"}
+          <p>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh jednorazovo v lehote do <strong>{$form->onetime_day}</strong>.</p>
+        {else}
+          {if $form->payments_kind == "monthly"}
+            <p>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh v splátkach:</p>
+            <p>Dlžník sa zaväzuje uhradiť dlh veriteľovi v pravidelných mesačných splátkach vo výške <strong>{$form->monthly_amount}</strong> vždy <strong>{$form->monthly_day}</strong>. Prvá splátka je splatná {if $form->first_monthly_payment}<strong>{$form->first_monthly_payment}</strong>{else}......................................{/if}. V prípade, ak sa dlžník omešká s čo i len s jednou splátkou, stáva sa splatným celý dlh.</p>
+          {else}
+            <p>1/ Zmluvné strany sa dohodli, že dlžník vráti veriteľovi dlh v splátkach:</p>
+            <p>Dlžník bude splácať dlh v splátkach nasledovne: <strong>{$form->other}</strong>. V prípade, ak sa dlžník omešká s čo i len s jednou splátkou, stáva sa splatným celý dlh.</p>
+          {/if}
+        {/if}
+
+        {if $form->return_form == "hotovost"}
+          <p>2/ Zmluvné strany sa dohodli, že dlžník vráti dlh veriteľovi v hotovosti v mieste bydliska veriteľa.</p>
+        {else}
+          <p>2/ Zmluvné strany sa dohodli, že dlžník vráti dlh veriteľovi prevodom na číslo účtu: <strong>{$form->return_account}</strong>.</p>
+        {/if}
+
+        <h3 class="step-subtitle">čl. V. <br> Ďalšie práva a povinnosti</h3>
+        <p>Zmluvné strany sa dohodli, že v prípade, ak sa dlžník dostane do omeškania so zaplatením dlhu, dlžník sa zaväzuje uhradiť veriteľovi zákonný úrok z omeškania podľa zákona č. 40/1964 Zb. Občiansky zákonník v znení neskorších predpisov a to odo dňa nasledujúceho po dni splatnosti dlhu až do úplného zaplatenia.</p>
+
+        <p><strong>{$form->dalsie_dojednania}</strong></p>
+
+        <h3 class="step-subtitle">čl. VI. <br> Záverečné ustanovenia</h3>
+        <p>1. Pre každého účastníka tejto zmluvy o pôžičke je vyhotovený jeden rovnopis zmluvy. Zmluvné strany sa dohodli, že túto zmluvu o pôžičke je možné meniť iba očíslovaným písomným dodatkom podpísaným oboma zmluvnými stranami, ktorý sa stane neoddeliteľnou súčasťou tejto zmluvy o pôžičke.</p>
+
+        <p>2. Zmluvné strany prehlasujú, že vyššie uvedená adresa (uvedená pri ich mene) je adresou, na ktorej preberajú poštové zásielky. V prípade, ak ktorákoľvek zmluvná strana zásielku neprevezme (alebo sa vráti ako nedoručená), táto sa považuje za doručenú okamihom vrátenia odosielateľovi. Toto platí aj pre rozhodcovské konanie.</p>
+
+        <p>3. Zmluvné strany sa dohodli, že všetky spory, ktoré vzniknú z tejto zmluvy budú riešené (písomne a zrýchlenou formou) rozhodcom ustanoveným do funkcie "vybranou osobou" podľa § 6 ods. 3 zákona č. 244/2002 Z.z. o rozhodcovskom konaní a to spoločnosťou Rozhodcovské konanie SR s.r.o, so sídlom: Žilinská 14, 81105 Bratislava (www.rsba.sk) podľa pravidiel zverejnených v Obchodnom vestníku č. 96/2016, značka: O000260. Rozhodcovské konanie bude vedené v súlade s právnymi predpismi SR a to jedným rozhodcom. Rozhodcom v spore môže byť aj štatutárny orgán vybranej osoby. Strany sa podrobia rozhodcovskému konaniu a rozhodnutiu.</p>
+
+        <p>4. Dlžník a veriteľ potvrdzujú, že si zmluvu o pôžičke riadne prečítali, obsahu zmluvy o pôžičke rozumejú a na znak súhlasu ju podpisujú. Obe zmluvné strany prehlasujú, že zmluvu o pôžičke uzatvorili slobodne a vážne.</p>
+
+        <p class="form-date">V <strong>{$form->sign_place}</strong>, dňa <strong>{$form->sign_date}</strong></p>
+
+        <div class="form-signature">
+          <div>
+            <span>...................................</span>
+            <span>Veriteľ</span>
+          </div>
+
+          <div>
+            <span>...................................</span>
+            <span>Dlžník</span>
+          </div>
+        </div>
+
+        <p class="document-title">Koniec dokumentu - Zmluva o pôžičke</p>
+      </div>
+    </div>
+  </div>
+{/block}

@@ -1,0 +1,14 @@
+<div class="form-currency">
+    <div class="form-cell hidden currency-other-input">
+        <input class="form-control other_currency" placeholder="Tu vložte menu" name="currency-other-{$name}">
+    </div>
+    <div class="form-cell">
+        <div class="form-select select-currency">
+            <select class="form-control currency" name="currency-{$name}">
+                {foreach $currencyValues as $key => $currency}
+                    <option value="{$key}">{$currency}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+</div>

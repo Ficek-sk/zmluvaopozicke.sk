@@ -1,0 +1,6 @@
+## ENABLE COOL URL ##
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	RewriteRule ^(.*)$ www/$1
+</IfModule>
