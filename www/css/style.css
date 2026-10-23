@@ -2629,23 +2629,209 @@ em {
     margin-top: 90px !important;
     z-index: 999999;
 }
-.eu-cookies {
+.cookie-consent-backdrop {
     position: fixed;
+    top: 0;
     left: 0;
-    bottom: 0;
     width: 100%;
-    color: white;
-    z-index: 1000;
-    background: #292c3b;
-    padding: 7px 0 7px 0;
+    height: 100%;
+    background: rgba(17, 24, 39, 0.65);
+    z-index: 2000;
 }
-.eu-cookies a:link, .eu-cookies a:visited {
-    color: white;
+
+/* the bar never blocks scrolling - the content stays readable */
+body.cookie-consent-open {
+    overflow: visible;
+}
+
+.cookie-consent-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: #2b2b2b;
+    background: #fff;
+    z-index: 2001;
+    padding: 28px 24px 24px;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.25);
+    border-top: 4px solid #393d60;
+}
+
+.cookie-consent-inner {
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.cookie-consent-title {
+    font-family: "Montserrat", sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #393d60;
+    margin: 0 0 10px;
+}
+
+.cookie-consent-desc {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+}
+
+.cookie-consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.cookie-consent-btn {
+    flex: 1 1 0;
+    height: auto;
+    line-height: 1.3;
+    padding: 14px 24px;
+    white-space: normal;
+    font-size: 15px;
+    color: #fff;
+    background: #393d60;
+    touch-action: manipulation;
+}
+
+.cookie-consent-btn:hover, .cookie-consent-btn:focus, .cookie-consent-btn:active {
+    color: #fff;
+    background: #4b5080;
+}
+
+.cookie-consent-links {
+    font-size: 14px;
+    margin: 16px 0 0;
+}
+
+.cookie-consent-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.cookie-consent-option:last-of-type {
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 20px;
+}
+
+.cookie-consent-option-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+
+.cookie-consent-option-desc {
+    font-size: 14px;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.cookie-consent-switch {
+    flex: 0 0 auto;
+}
+
+/* Bootstrap 3 has no form-switch, the checkbox is drawn as a toggle here */
+.cookie-consent-toggle {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    display: block;
+    width: 48px;
+    height: 26px;
+    margin: 0;
+    border-radius: 13px;
+    background: #cbd0d8;
+    cursor: pointer;
+    outline: none;
+    transition: background .2s ease;
+}
+
+.cookie-consent-toggle::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    transition: left .2s ease;
+}
+
+.cookie-consent-toggle:checked {
+    background: #393d60;
+}
+
+.cookie-consent-toggle:checked::after {
+    left: 25px;
+}
+
+.cookie-consent-toggle:focus {
+    box-shadow: 0 0 0 3px rgba(57, 61, 96, 0.25);
+}
+
+.cookie-consent-toggle:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+#cookie-consent-settings {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.cookie-consent-bar a {
+    color: #393d60;
     text-decoration: underline;
 }
-.btn-cookies {
-    line-height: 40px !important;
-    height: auto;
+
+/* phones: a compact bottom sheet, at most 40 % of the screen, no dimmed page */
+@media (max-width: 767px) {
+    .cookie-consent-backdrop {
+        display: none;
+    }
+
+    .cookie-consent-bar {
+        max-height: 40vh;
+        overflow-y: auto;
+        padding: 14px 16px 12px;
+        box-shadow: 0 -6px 18px rgba(57, 61, 96, 0.18);
+        border-radius: 14px 14px 0 0;
+    }
+
+    .cookie-consent-title {
+        font-size: 17px;
+        margin-bottom: 4px;
+    }
+
+    .cookie-consent-desc {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 10px;
+    }
+
+    .cookie-consent-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .cookie-consent-btn {
+        flex: 0 0 auto;
+        width: 100%;
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .cookie-consent-links {
+        font-size: 13px;
+        margin: 8px 0 0;
+    }
 }
 
 .info-box{

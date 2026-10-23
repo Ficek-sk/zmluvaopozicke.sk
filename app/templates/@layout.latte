@@ -59,7 +59,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     <!-- CSS -->
-    <link href="{$basePath}/css/style.css" rel="stylesheet">
+    <link href="{$basePath}/css/style.css?v=2" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -72,6 +72,9 @@
 
     <!-- ReCaptcha -->
     <script src="https://www.google.com/recaptcha/api.js"></script>
+
+    <!-- js.cookie stays synchronous, the cookie bar and gtag read the consent early -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
 
 <body n:class="$presenter->isLinkCurrent('Homepage:default') ? homepage : null">
@@ -250,19 +253,9 @@
     </div>
 
     <div class="gradient"></div>
-    <div class="eu-cookies" n:if="empty($_COOKIE[eu-cookies])">
-        <div class="container">
-            Na našich stránkach používame cookies. Slúžia na zlepšenie našej práce a vášho používania tejto stránky.
-            Bližšie informácie nájdete v <a href="https://ficek.sk/gdpr/#cookies">Pravidlách používania cookies.</a>
-            <button class="btn btn-default btn-cookies">Súhlasím</button>
-        </div>
-    </div>
-    <noscript>
-        <style>.eu-cookies {
-                display: none
-            }</style>
-    </noscript>
 </footer>
+
+{include '@cookieConsent.latte'}
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -301,13 +294,6 @@
             }
             return true;
         }
-
-        $('.eu-cookies button').click(function () {
-            var date = new Date();
-            date.setFullYear(date.getFullYear() + 10);
-            document.cookie = 'eu-cookies=1; path=/; expires=' + date.toGMTString();
-            $('.eu-cookies').hide();
-        });
     </script>
 {/if}
 
@@ -346,6 +332,23 @@
 <script n:syntax="off">
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+
+    // Analytics runs always, the consent only affects advertising purposes.
+    gtag('consent', 'default', {
+        'analytics_storage': 'granted',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied'
+    });
+
+    if (typeof Cookies !== 'undefined' && Cookies.get('cookie-consent') === 'all') {
+        gtag('consent', 'update', {
+            'ad_storage': 'granted',
+            'ad_user_data': 'granted',
+            'ad_personalization': 'granted'
+        });
+    }
+
     gtag('js', new Date());
 
     gtag('config', 'UA-125749886-1');

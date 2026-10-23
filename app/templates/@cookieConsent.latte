@@ -1,0 +1,110 @@
+<div id="cookie-consent" class="cookie-consent" style="display: none;">
+    <div class="cookie-consent-backdrop"></div>
+    <div class="cookie-consent-bar">
+        <div class="cookie-consent-inner">
+            <div id="cookie-consent-intro">
+                <p class="cookie-consent-title">Cookies a súkromie</p>
+                <p class="cookie-consent-desc">
+                    Tento web používa cookies. Nevyhnutné cookies sú potrebné pre základnú funkčnosť webu. Analytické cookies nám pomáhajú zlepšovať obsah. Súhlas môžete kedykoľvek upraviť alebo odvolať.
+                </p>
+                <div class="cookie-consent-actions">
+                    <button type="button" class="btn cookie-consent-btn" onclick="cookieConsentSet('necessary')">
+                        Odmietnuť všetky
+                    </button>
+                    <button type="button" class="btn cookie-consent-btn" onclick="cookieConsentSettings(true)">
+                        Prispôsobiť
+                    </button>
+                    <button type="button" class="btn cookie-consent-btn" onclick="cookieConsentSet('all')">
+                        Súhlasím so všetkým
+                    </button>
+                </div>
+                <p class="cookie-consent-links">
+                    Viac informácií v <a href="https://ficek.sk/gdpr" target="_blank">Zásadách ochrany osobných údajov</a>.
+                </p>
+            </div>
+
+            <div id="cookie-consent-settings" style="display: none;">
+                <p class="cookie-consent-title">Prispôsobiť cookies</p>
+
+                <div class="cookie-consent-option">
+                    <div class="cookie-consent-option-text">
+                        <p class="cookie-consent-option-title">Nevyhnutné cookies</p>
+                        <p class="cookie-consent-option-desc">
+                            Tieto cookies sú potrebné pre základnú funkčnosť webu (napr. zapamätanie si vašich údajov vo formulári v rámci jednej relácie). Bez nich web nefunguje správne.
+                        </p>
+                    </div>
+                    <div class="cookie-consent-switch">
+                        <input class="cookie-consent-toggle" type="checkbox" checked disabled aria-label="Nevyhnutné cookies – vždy aktívne">
+                    </div>
+                </div>
+
+                <div class="cookie-consent-option">
+                    <div class="cookie-consent-option-text">
+                        <p class="cookie-consent-option-title">Analytické cookies</p>
+                        <p class="cookie-consent-option-desc">
+                            Pomáhajú nám pochopiť, ako návštevníci používajú web (napr. ktoré odpovede čítajú, kde sa zaseknú vo formulári). Údaje sú agregované a anonymné.
+                        </p>
+                    </div>
+                    <div class="cookie-consent-switch">
+                        <input class="cookie-consent-toggle" type="checkbox" checked disabled aria-label="Analytické cookies – vždy aktívne">
+                    </div>
+                </div>
+
+                <div class="cookie-consent-option">
+                    <div class="cookie-consent-option-text">
+                        <p class="cookie-consent-option-title">Marketingové cookies</p>
+                        <p class="cookie-consent-option-desc">
+                            Umožňujú zobrazovať relevantnú reklamu a merať jej účinnosť.
+                        </p>
+                    </div>
+                    <div class="cookie-consent-switch">
+                        <input class="cookie-consent-toggle" type="checkbox" id="cookie-consent-marketing" aria-label="Marketingové cookies">
+                    </div>
+                </div>
+
+                <div class="cookie-consent-actions">
+                    <button type="button" class="btn cookie-consent-btn" onclick="cookieConsentSettings(false)">
+                        Späť
+                    </button>
+                    <button type="button" class="btn cookie-consent-btn" onclick="cookieConsentSave()">
+                        Uložiť výber
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script n:syntax="off">
+    function cookieConsentSet(consent) {
+        Cookies.set('cookie-consent', consent, {expires: 365, path: '/'});
+        document.getElementById('cookie-consent').style.display = 'none';
+        document.body.classList.remove('cookie-consent-open');
+
+        // Analytics (GA) runs always, the consent only affects advertising purposes.
+        if (typeof gtag === 'function') {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'ad_storage': consent === 'all' ? 'granted' : 'denied',
+                'ad_user_data': consent === 'all' ? 'granted' : 'denied',
+                'ad_personalization': consent === 'all' ? 'granted' : 'denied'
+            });
+        }
+    }
+
+    function cookieConsentSettings(show) {
+        document.getElementById('cookie-consent-intro').style.display = show ? 'none' : '';
+        document.getElementById('cookie-consent-settings').style.display = show ? '' : 'none';
+    }
+
+    function cookieConsentSave() {
+        cookieConsentSet(document.getElementById('cookie-consent-marketing').checked ? 'all' : 'necessary');
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        if (Cookies.get('cookie-consent') === undefined) {
+            document.getElementById('cookie-consent').style.display = '';
+            document.body.classList.add('cookie-consent-open');
+        }
+    });
+</script>
