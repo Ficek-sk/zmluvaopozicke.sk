@@ -311,13 +311,13 @@ class HomepagePresenter extends Presenter
         if($slug === "message"){
             $this->redirectUrl('https://admin.ficek.sk/online-pravna-poradna?webId=2');
         }
-        $template = $this->getTemplate();
-
-        try {
-            $template->setFile(dirname(__DIR__) . "/templates/Homepage/$slug.latte");
-        } catch (Exception $e) {
+        // setFile() does not check the file - a missing page would fail only while rendering (500)
+        $file = dirname(__DIR__) . "/templates/Homepage/$slug.latte";
+        if (!is_file($file)) {
             throw new BadRequestException();
         }
+
+        $this->getTemplate()->setFile($file);
     }
 
     protected function createComponentMessage()
