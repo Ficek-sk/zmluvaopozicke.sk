@@ -376,13 +376,14 @@
 				<h3 class="step-subtitle fadeIn">Najnovšie odpovede</h3>
 
 				{if isset($recentQuestions)}
-					{foreach $recentQuestions as $recentQuestion}
-						<a href="/{$recentQuestion['slug']}">
-							{$recentQuestion['name']}<br />
-							<sup>{$recentQuestion['answered']|date:'%d.%m.%Y'}</sup>
-						</a>
-						<br />
-					{/foreach}
+					<ul class="recent-questions">
+						<li n:foreach="$recentQuestions as $recentQuestion">
+							<a href="/{$recentQuestion['slug']}">
+								<span class="recent-question-name">{$recentQuestion['name']}</span>
+								<span class="recent-question-date">{$recentQuestion['answered']|date:'%d.%m.%Y'}</span>
+							</a>
+						</li>
+					</ul>
 				{/if}
 
 			</div>
