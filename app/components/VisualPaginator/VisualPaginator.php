@@ -41,7 +41,7 @@ class VisualPaginator extends Control
 
 
 	/**
-	 * @return Nette\Paginator
+	 * @return Paginator
 	 */
 	public function getPaginator()
 	{
@@ -57,7 +57,7 @@ class VisualPaginator extends Control
 	 * Renders paginator.
 	 * @return void
 	 */
-	public function render()
+	public function render(): void
 	{
 		$paginator = $this->getPaginator();
 		$page = $paginator->page;
@@ -85,10 +85,8 @@ class VisualPaginator extends Control
 
 	/**
 	 * Loads state informations.
-	 * @param  array
-	 * @return void
 	 */
-	public function loadState(array $params)
+	public function loadState(array $params): void
 	{
 		parent::loadState($params);
 		$this->getPaginator()->page = $this->page;

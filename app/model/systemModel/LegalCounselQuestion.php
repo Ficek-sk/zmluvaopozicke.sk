@@ -30,7 +30,10 @@ class LegalCounselQuestion extends BaseTable
 
         foreach ($questions as $question) {
             $replaced = $this->replaceByParentIfExists($question);
-            $result[$replaced['slug']] = $this->replaceByParentIfExists($question);
+            if ($replaced === null) {
+                continue;
+            }
+            $result[$replaced['slug']] = $replaced;
 
             if($iterator === $limit || count($result) === $limit){
                 return $result;
@@ -50,7 +53,7 @@ class LegalCounselQuestion extends BaseTable
 
             $parentQuestion = $this->find($question['parent_question_id'])->where('answered < NOW()')->fetch();
 
-            if($parentQuestion === false){
+            if($parentQuestion === null){
                 return null;
             }
 
@@ -73,7 +76,7 @@ class LegalCounselQuestion extends BaseTable
 
         $q = $this->findOneBy($criteria)->where('answered < NOW()')->fetch();
 
-        if ($q['answered'] !== null && ($q['parent_question_id'] === null || $q['redirect'] !== null) && $q['public'] === 1 && $q['web_id'] === self::WEB_FICEK_ID) {
+        if ($q && $q['answered'] !== null && ($q['parent_question_id'] === null || $q['redirect'] !== null) && $q['public'] === 1 && $q['web_id'] === self::WEB_FICEK_ID) {
             if($q['answered'] < new \DateTime()){
                 return $q;
             }

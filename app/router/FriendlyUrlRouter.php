@@ -2,15 +2,13 @@
 
 namespace App;
 
-use App\Model\SystemModel\Post;
-use App\Model\SystemModel\Redirect;
 use Nette\Application\BadRequestException;
-use Nette\Application\Request as AppRequest;
 use Nette\Http\IRequest as HttpRequest;
-use Nette\Http\Url;
-use App\Model\SystemModel\LegalCounselQuestion;;
+use Nette\Http\UrlScript;
+use Nette\Routing\Router;
+use App\Model\SystemModel\LegalCounselQuestion;
 
-class FriendlyUrlRouter implements \Nette\Application\IRouter
+class FriendlyUrlRouter implements Router
 {
     public $projectDir;
 
@@ -27,10 +25,9 @@ class FriendlyUrlRouter implements \Nette\Application\IRouter
     }
 
     /**
-     * Maps HTTP request to a Request object.
-     * @return Nette\Application\Request|NULL
+     * Maps HTTP request to the parameters of the Homepage:question action.
      */
-    function match(HttpRequest $httpRequest)
+    public function match(HttpRequest $httpRequest): ?array
     {
         $url = $httpRequest->getUrl();
         $relPath = (string) substr($url->getPath(), strlen($url->getBasePath()));
@@ -52,18 +49,13 @@ class FriendlyUrlRouter implements \Nette\Application\IRouter
         if (count($idWithSeoTitleParts) <= 1)
             return null;
 
-        $seoTitle = null;
         $idStr = end( $idWithSeoTitleParts );
-        if(is_numeric($idStr)){
-            $seoTitle = implode('-', array_slice($idWithSeoTitleParts, 0, -1));
-        } else {
+        if(!is_numeric($idStr)){
             //Check if it's old link {id}-{seotitle}
             $idStr = reset( $idWithSeoTitleParts );
             if(!is_numeric($idStr)){
                 return null;
             }
-
-            $seoTitle = implode('-', array_slice($idWithSeoTitleParts, 1));
         }
 
         $id = intval( $idStr );
@@ -74,78 +66,39 @@ class FriendlyUrlRouter implements \Nette\Application\IRouter
             throw new BadRequestException();
         }
 
-        $action = 'question';
-
         $params = $httpRequest->getQuery();
-        $params['id'] = $id;
-        $params['action'] = $action;
         unset($params['paginator-page']);
+        $params['presenter'] = 'Homepage';
+        $params['action'] = 'question';
+        $params['id'] = $id;
+        $params['slug'] = $question['slug'];
 
-        if($action === 'question') {
-            $params['slug'] = $question['slug'];
-        }
-
-        return new AppRequest(
-            'Homepage',
-            $httpRequest->getMethod(),
-            $params,
-            $httpRequest->getPost(),
-            $httpRequest->getFiles(),
-            [AppRequest::SECURED => $httpRequest->isSecured()]
-        );
+        return $params;
     }
 
     /**
-     * Constructs absolute URL from Request object.
-     * @param AppRequest $appRequest
-     * @param Url $refUrl
-     * @return string|NULL
-     * @throws \Exception
+     * Constructs absolute URL of the Homepage:question action.
      */
-    function constructUrl(AppRequest $appRequest, Url $refUrl)
+    public function constructUrl(array $params, UrlScript $refUrl): ?string
     {
-        $row = null;
-        $params = $appRequest->getParameters();
-
-        if ($params['action'] != 'question' && $params['action'] != 'article')
+        if (($params['presenter'] ?? null) !== 'Homepage' || ($params['action'] ?? null) !== 'question') {
             return null;
-
-        if ($params['action'] == 'article')
-            $row = $this->post->find($params['id']);
-        elseif ($params['action'] == 'question'){
-            $question = $this->legalCounselQuestion->findRootQuestion($params['slug']);
-
-            if($question === null){
-                return null;
-            }
-
-            $baseUrl = preg_replace('/'.$this->projectDir.'\//', '', $refUrl->getBaseUrl());
-            $url = $baseUrl . self::urlify($question['slug']);
-
-            //Remove processed parameters
-            unset($params['action'], $params['id'], $params['slug']);
-            //unset($params['paginator-page']);
-
-            $sep = ini_get('arg_separator.input');
-
-            $query = http_build_query($params, '', $sep ? $sep[0] : '&');
-            if ($query != ''){ // intentionally ==
-                $url .= '?' . $query;
-            }
-
-            return $url;
         }
 
-        if (!$row)
+        $question = $this->legalCounselQuestion->findRootQuestion($params['slug'] ?? null);
+
+        if($question === null){
             return null;
+        }
 
         $baseUrl = preg_replace('/'.$this->projectDir.'\//', '', $refUrl->getBaseUrl());
-        $url = $baseUrl . self::urlify( $row->seo_title ) . '-' . self::urlify( $params['id'] );
+        $url = $baseUrl . self::urlify($question['slug']);
 
         //Remove processed parameters
-        unset($params['action'],$params['id']);
+        unset($params['presenter'], $params['action'], $params['id'], $params['slug']);
 
         $sep = ini_get('arg_separator.input');
+
         $query = http_build_query($params, '', $sep ? $sep[0] : '&');
         if ($query != ''){ // intentionally ==
             $url .= '?' . $query;

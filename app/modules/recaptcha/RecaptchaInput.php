@@ -55,7 +55,7 @@ class RecaptchaInput extends BaseControl
      *
      * @return bool
      */
-    public function isFilled()
+    public function isFilled(): bool
     {
         return true;
     }

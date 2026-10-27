@@ -17,7 +17,7 @@
     {ifset $seoTitle}
         <title>{$seoTitle}</title>
     {else}
-        <title>[{php echo date("Y")}] Zmluva o pôžičke (vzor zadarmo) - {block title|striptags}Stiahnite si zmluvu o pôžičke bezplatne{/block}</title>
+        <title>[{date("Y")}] Zmluva o pôžičke (vzor zadarmo) - {block title|striptags}Stiahnite si zmluvu o pôžičke bezplatne{/block}</title>
     {/ifset}
 
 
@@ -246,7 +246,7 @@
             </div>
 
             <div class="footer-bottom to-animate">
-                <p class="copyright pull-left">Copyright &copy; {php echo date('Y') } Zmluva
+                <p class="copyright pull-left">Copyright &copy; {date('Y')} Zmluva
                         o pôžičke. Všetky práva vyhradené.</p>
             </div>
         </div>

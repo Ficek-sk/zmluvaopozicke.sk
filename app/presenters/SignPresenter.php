@@ -6,6 +6,13 @@ use Nette\Application\UI;
  * Sign in/out presenters.
  */
 class SignPresenter extends BasePresenter {
+
+	/** @var UserRepository @inject */
+	public $userRepository;
+
+	/** @var EmailSender @inject */
+	public $emailSender;
+
 	/**
 	 * Sign-in form factory.
 	 * @return Nette\Application\UI\Form
@@ -23,7 +30,7 @@ class SignPresenter extends BasePresenter {
 		$form->addSubmit('send', 'Prihlásiť');
 
 		// call method signInFormSucceeded() on success
-		$form->onSuccess[] = $this->signInFormSucceeded;
+		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 		return $form;
 	}
 
@@ -31,9 +38,9 @@ class SignPresenter extends BasePresenter {
 		$values = $form->getValues();
 
 		if ($values->remember) {
-			$this->getUser()->setExpiration('+ 14 days', FALSE);
+			$this->getUser()->setExpiration('+ 14 days', false);
 		} else {
-			$this->getUser()->setExpiration('+ 20 minutes', TRUE);
+			$this->getUser()->setExpiration('+ 20 minutes', true);
 		}
 
 		try {
@@ -60,17 +67,17 @@ class SignPresenter extends BasePresenter {
 
 		$form->addSubmit('send', 'Odoslať');
 
-		$form->onSuccess[] = $this->forgottenPasswordFormSubmitted;
+		$form->onSuccess[] = [$this, 'forgottenPasswordFormSubmitted'];
 		return $form;
 	}
 
 	public function forgottenPasswordFormSubmitted($form)	{
 		$values = $form->getValues();
-		$user = $this->context->userRepository->find_by_username($values['username']);
+		$user = $this->userRepository->find_by_username($values['username']);
 
 		if ($user) {
 			//zákazník  existuje
-			$this->context->userRepository->resetPassword($this->context->emailSender, $user);
+			$this->userRepository->resetPassword($this->emailSender, $user);
       $this->flashMessage('Na vašu e-mailovú adresu bolo zaslané nové heslo.');
       $this->redirect('in');
 

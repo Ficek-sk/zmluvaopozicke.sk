@@ -2,27 +2,25 @@
 
 use Nette\Security;
 
-class Authenticator implements Security\IAuthenticator {
+class Authenticator implements Security\Authenticator {
 
-    /** @var Nette\Database\Connection */
+    /** @var Nette\Database\Explorer */
 	private $database;
 
-	public function __construct(Nette\Database\Connection $database) {
+	public function __construct(Nette\Database\Explorer $database) {
 		$this->database = $database;
 	}
 
 	/**
 	 * Performs an authentication.
-	 * @return Nette\Security\Identity
 	 * @throws Nette\Security\AuthenticationException
 	 */
-	public function authenticate(array $credentials) {
+	public function authenticate(string $username, string $password): Security\IIdentity {
 
-		[$username, $password] = $credentials;
 		$row = $this->database->table('user')->where('username', $username)->fetch();
 
 		if (!$row) {
-			throw new Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+			throw new Security\AuthenticationException('The username is incorrect.', self::IdentityNotFound);
 		}
 
 		$oldHash = base64_decode($row->password_hash);
@@ -31,17 +29,18 @@ class Authenticator implements Security\IAuthenticator {
 		$result = static::slow_equals($oldHash, $newHash);
 
 		if (!$result) {
-			throw new Security\AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
+			throw new Security\AuthenticationException('The password is incorrect.', self::InvalidCredential);
 		}
 
-		unset($row->password_hash);
-		unset($row->password_salt);
-		return new Security\Identity($row->id, NULL, $row->toArray());
+		$data = $row->toArray();
+		unset($data['password_hash'], $data['password_salt']);
+		return new Security\SimpleIdentity($row->id, NULL, $data);
 	}
 
 	/**
 	 * Computes salted password hash.
-	 * @param  string
+	 * @param  string $password
+	 * @param  string $salt
 	 * @return string
 	 */
 	public static function calculateHash($password, $salt) {

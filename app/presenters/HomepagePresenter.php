@@ -4,7 +4,6 @@ use \Nette\Application\UI;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Form;
-use Nette\Application\UI\ITemplateFactory;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use App\Model\SystemModel\LegalCounselQuestion;
 use App\Model\SystemModel\LegalCounselQuestionAnswer;
@@ -16,19 +15,19 @@ Nette\Forms\Controls\BaseControl::$idMask = 'form-%s';
 class HomepagePresenter extends Presenter
 {
 
-    /** @var FormRepository @inject */
+    /** @var FormRepository */
     private $formRepository;
 
-    /** @var MessageRepository @inject */
+    /** @var MessageRepository */
     private $messageRepository;
 
-    /** @var EmailSender @inject */
+    /** @var EmailSender */
     private $emailSender;
 
-    /** @var DlznikRepository @inject */
+    /** @var DlznikRepository */
     private $dlznikRepository;
 
-    /** @var TemplateFactory @inject */
+    /** @var TemplateFactory */
     private $templateFactory;
 
     /** @var LegalCounselQuestion @inject */
@@ -58,7 +57,7 @@ class HomepagePresenter extends Presenter
                                 MessageRepository $messageRepository,
                                 EmailSender $emailSender,
                                 DlznikRepository $dlznikRepository,
-                                ITemplateFactory $templateFactory,
+                                TemplateFactory $templateFactory,
                                 ContractReviewManager $contractReviewManager
     )
     {
@@ -116,6 +115,8 @@ class HomepagePresenter extends Presenter
 
     public function censorValue($value)
     {
+        $value = (string) $value;
+
         $deniedStrings = [
             'sro',
             's.r.o.',
@@ -325,20 +326,20 @@ class HomepagePresenter extends Presenter
         $form = new UI\Form;
 
         $form->addText('name', 'Vaše meno')
-            ->setAttribute('placeholder', 'Meno a priezvisko')
-            ->setAttribute('autocomplete', 'name')
-            ->setAttribute('class', 'form-control')
+            ->setHtmlAttribute('placeholder', 'Meno a priezvisko')
+            ->setHtmlAttribute('autocomplete', 'name')
+            ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Nezadali ste meno');
 
         $form->addText('email', 'Váš e-mail')
-            ->setAttribute('placeholder', 'E-mailová adresa')
-            ->setAttribute('autocomplete', 'email')
-            ->setAttribute('class', 'form-control')
+            ->setHtmlAttribute('placeholder', 'E-mailová adresa')
+            ->setHtmlAttribute('autocomplete', 'email')
+            ->setHtmlAttribute('class', 'form-control')
             ->setRequired('Nezadali ste e-mail');
 
         $form->addTextArea('message', 'Vaša správa')
-            ->setAttribute('placeholder', 'Správa')
-            ->setAttribute('class', 'form-control form-textarea')
+            ->setHtmlAttribute('placeholder', 'Správa')
+            ->setHtmlAttribute('class', 'form-control form-textarea')
             ->setRequired('Nezadali ste správu');
 
         $form->addSubmit('submit', 'Odoslať správu');
@@ -346,15 +347,6 @@ class HomepagePresenter extends Presenter
         $form->onSuccess[] = [$this, 'messageSubmitted'];
 
         return $form;
-    }
-
-    public function messageValidated($form)
-    {
-        $validator = $this->context->reCaptcha;
-
-        if (!$validator->isValid(filter_input(INPUT_POST, 'g-recaptcha-response', FILTER_SANITIZE_STRING))) {
-            $form->addError('Nepodarilo sa nám overiť Vašu identitu.');
-        }
     }
 
     public function messageSubmitted($form)
@@ -375,156 +367,156 @@ class HomepagePresenter extends Presenter
         $optionsPerson['po'] = "Právnická osoba";
 
         $form->addSelect('v_form', 'Typ veriteľa', $optionsPerson)
-            ->setAttribute('class', 'form-control person-select')
+            ->setHtmlAttribute('class', 'form-control person-select')
             ->setRequired('Nevybrali ste typ veriteľa!');
 
         $form->addText('v_name', 'Meno a priezivsko')
-            ->setAttribute('placeholder', 'Meno a priezvisko')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Meno a priezvisko')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_date_of_birdth', 'Dátum narodenia')
-            ->setAttribute('placeholder', 'Dátum narodenia')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Dátum narodenia')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_rc', 'Rodné číslo')
-            ->setAttribute('placeholder', 'Rodné číslo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Rodné číslo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_address', 'Adresa')
-            ->setAttribute('placeholder', 'Adresa')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Adresa')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_home', 'Bydlisko')
-            ->setAttribute('placeholder', 'Trvalý pobyt')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Trvalý pobyt')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_citizenship', 'Občianstvo')
-            ->setAttribute('placeholder', 'Občianstvo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Občianstvo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_company', 'Názov firmy')
-            ->setAttribute('placeholder', 'Názov firmy')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Názov firmy')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_ico', 'IČO')
-            ->setAttribute('placeholder', 'IČO')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'IČO')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_residence', 'Sídlo')
-            ->setAttribute('placeholder', 'Sídlo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Sídlo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_representative', 'Zástupca')
-            ->setAttribute('placeholder', 'Zástupca')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Zástupca')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_other', 'Iné údaje')
-            ->setAttribute('placeholder', 'Iné údaje')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Iné údaje')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_fop_other', 'Iné údaje')
-            ->setAttribute('placeholder', 'Iné údaje')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Iné údaje')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_po_company', 'Názov firmy')
-            ->setAttribute('placeholder', 'Názov firmy')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Názov firmy')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_po_ico', 'IČO')
-            ->setAttribute('placeholder', 'IČO')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'IČO')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_po_residence', 'Sídlo')
-            ->setAttribute('placeholder', 'Sídlo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Sídlo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_po_representative', 'Zástupca')
-            ->setAttribute('placeholder', 'Zástupca')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Zástupca')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('v_po_other', 'Iné údaje')
-            ->setAttribute('placeholder', 'Iné údaje')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Iné údaje')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addSelect('d_form', 'Typ dlžníka', $optionsPerson)
-            ->setAttribute('class', 'form-control person-select')
+            ->setHtmlAttribute('class', 'form-control person-select')
             ->setRequired('Nevybrali ste typ dlžníka!');
 
         $form->addText('d_name', 'Meno a priezivsko')
-            ->setAttribute('placeholder', 'Meno a priezvisko')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Meno a priezvisko')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_date_of_birdth', 'Dátum narodenia')
-            ->setAttribute('placeholder', 'Dátum narodenia')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Dátum narodenia')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_rc', 'Rodné číslo')
-            ->setAttribute('placeholder', 'Rodné číslo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Rodné číslo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_address', 'Adresa')
-            ->setAttribute('placeholder', 'Trvalý pobyt dlžníka')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Trvalý pobyt dlžníka')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_home', 'Bydlisko')
-            ->setAttribute('placeholder', 'Trvalý pobyt')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Trvalý pobyt')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_citizenship', 'Občianstvo')
-            ->setAttribute('placeholder', 'Občianstvo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Občianstvo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_company', 'Názov firmy')
-            ->setAttribute('placeholder', 'Názov firmy')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Názov firmy')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_ico', 'IČO')
-            ->setAttribute('placeholder', 'IČO')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'IČO')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_residence', 'Sídlo')
-            ->setAttribute('placeholder', 'Sídlo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Sídlo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_representative', 'Zástupca')
-            ->setAttribute('placeholder', 'Zástupca')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Zástupca')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_other', 'Iné údaje')
-            ->setAttribute('placeholder', 'Iné údaje')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Iné údaje')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_fop_other', 'Iné údaje')
-            ->setAttribute('placeholder', 'Iné údaje')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Iné údaje')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_po_company', 'Názov firmy')
-            ->setAttribute('placeholder', 'Názov firmy')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Názov firmy')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_po_ico', 'IČO')
-            ->setAttribute('placeholder', 'IČO')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'IČO')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_po_residence', 'Sídlo')
-            ->setAttribute('placeholder', 'Sídlo')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Sídlo')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_po_representative', 'Zástupca')
-            ->setAttribute('placeholder', 'Zástupca')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Zástupca')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('d_po_other', 'Iné údaje')
-            ->setAttribute('placeholder', 'Iné údaje')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Iné údaje')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('dept_amount', 'Výška dlhu')
-            ->setAttribute('placeholder', 'Akú sumu požičiavate?')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Akú sumu požičiavate?')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('dept_words', 'Slovom')
-            ->setAttribute('placeholder', 'Výška pôžičky slovom')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Výška pôžičky slovom')
+            ->setHtmlAttribute('class', 'form-control');
 
         $optionsMoneyTransfer = [
             'hotovost' => 'V hotovosti pri podpise',
@@ -536,30 +528,30 @@ class HomepagePresenter extends Presenter
             ->setDefaultValue('hotovost');
 
         $form->addText('money_receiving_account', 'Číslo účtu')
-            ->setAttribute('placeholder', 'Uveďte číslo účtu')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte číslo účtu')
+            ->setHtmlAttribute('class', 'form-control');
 
         /* Cash part */
         $form->addText('money_receiving_part_cash_price', 'Suma')
-            ->setAttribute('placeholder', 'Uveďte výšku sumy')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte výšku sumy')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('money_receiving_part_cash_price_word', 'Suma slovom')
-            ->setAttribute('placeholder', 'Uveďte sumu slovom')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte sumu slovom')
+            ->setHtmlAttribute('class', 'form-control');
 
         /* Transfer part */
         $form->addText('money_receiving_part_transfer_price', 'Suma')
-            ->setAttribute('placeholder', 'Uveďte výšku sumy')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte výšku sumy')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('money_receiving_part_transfer_price_word', 'Suma slovom')
-            ->setAttribute('placeholder', 'Uveďte sumu slovom')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte sumu slovom')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('money_receiving_part_transfer_account', 'Číslo účtu')
-            ->setAttribute('placeholder', 'Uveďte číslo účtu dlžníka')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte číslo účtu dlžníka')
+            ->setHtmlAttribute('class', 'form-control');
 
         $optionsDebt = [
             'bezurocne' => 'Bezúročne',
@@ -571,16 +563,16 @@ class HomepagePresenter extends Presenter
 
         $form->addText('urok_amount', 'Výška úroku')
             ->setValue(' €')
-            ->setAttribute('placeholder', 'Uveďte výšku úroku')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte výšku úroku')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('urok_total_dept', 'Číslo účtu')
-            ->setAttribute('placeholder', 'Celková suma na vrátenie')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Celková suma na vrátenie')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('urok_total_dept_words', 'Číslo účtu')
-            ->setAttribute('placeholder', 'Suma na vrátenie slovom')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Suma na vrátenie slovom')
+            ->setHtmlAttribute('class', 'form-control');
 
         $optionsPayment = [
             'onetime' => 'Jednorázovo',
@@ -591,8 +583,8 @@ class HomepagePresenter extends Presenter
             ->setDefaultValue('onetime');
 
         $form->addText('onetime_day', 'Jednorázovo dňa')
-            ->setAttribute('placeholder', 'Dátum vrátenia dlhu')
-            ->setAttribute('class', 'form-control date');
+            ->setHtmlAttribute('placeholder', 'Dátum vrátenia dlhu')
+            ->setHtmlAttribute('class', 'form-control date');
 
         $optionsPaymentTime = [
             'monthly' => 'V mesačných splátkach',
@@ -601,12 +593,12 @@ class HomepagePresenter extends Presenter
 
         $form->addRadioList('payments_kind', 'Spôsob splácania:', $optionsPaymentTime)
             ->setDefaultValue('monthly')
-            ->addConditionOn($form['paying_form'], UI\Form::IS_IN, ['payments'])
-            ->addRule(UI\Form::FILLED, 'Nevybrali ste formu splácania.', TRUE);
+            ->addConditionOn($form['paying_form'], UI\Form::IsIn, ['payments'])
+            ->addRule(UI\Form::Filled, 'Nevybrali ste formu splácania.', TRUE);
 
         $form->addText('monthly_amount', 'Mesačne vo výške')
-            ->setAttribute('placeholder', 'Výška mesačnej splátky')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Výška mesačnej splátky')
+            ->setHtmlAttribute('class', 'form-control');
 
         $optionsPaymentMonthly = [
             'do 10. dňa v mesiaci' => 'do 10. dňa v mesiaci',
@@ -616,20 +608,20 @@ class HomepagePresenter extends Presenter
         ];
 
         $form->addSelect('monthly_day', 'Mesačne vždy k', $optionsPaymentMonthly)
-            ->setAttribute('class', 'form-control')
+            ->setHtmlAttribute('class', 'form-control')
             ->setPrompt('Vyberte');
 
         $form->addText('first_monthly_payment', 'Uveďte dátum prvej splátky')
-            ->setAttribute('placeholder', 'Uveďte dátum')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte dátum')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addTextArea('other', 'Iné')
-            ->setAttribute('placeholder', 'Uveďte čas a spôsob úhrady dlhu')
-            ->setAttribute('class', 'form-control form-textarea mt-20');
+            ->setHtmlAttribute('placeholder', 'Uveďte čas a spôsob úhrady dlhu')
+            ->setHtmlAttribute('class', 'form-control form-textarea mt-20');
 
         $form->addTextArea('dalsie_dojednania', 'Ďalšie dojednania')
-            ->setAttribute('placeholder', 'Sem vložte prípadne ďalšie dojednania, ak to považujete za potrebné.')
-            ->setAttribute('class', 'form-control form-textarea');
+            ->setHtmlAttribute('placeholder', 'Sem vložte prípadne ďalšie dojednania, ak to považujete za potrebné.')
+            ->setHtmlAttribute('class', 'form-control form-textarea');
 
         $optionsMoneyReturn = [
             'hotovost' => 'V hotovosti',
@@ -640,21 +632,21 @@ class HomepagePresenter extends Presenter
             ->setDefaultValue('hotovost');
 
         $form->addText('return_account', 'Číslo účtu')
-            ->setAttribute('placeholder', 'Uveďte číslo účtu')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Uveďte číslo účtu')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('sign_place', 'Miesto podpisu')
-            ->setAttribute('placeholder', 'Obec alebo mesto')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Obec alebo mesto')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('sign_date', 'Dátum podpisu')
-            ->setAttribute('placeholder', 'Dátum podpisu')
-            ->setAttribute('class', 'form-control');
+            ->setHtmlAttribute('placeholder', 'Dátum podpisu')
+            ->setHtmlAttribute('class', 'form-control');
 
         $form->addText('send_by_email', 'Dokument odoslať na e-mail:')
-            ->setAttribute('placeholder', 'E-mailová adresa')
-            ->setAttribute('autocomplete', 'email')
-            ->setAttribute('class', 'form-control')
+            ->setHtmlAttribute('placeholder', 'E-mailová adresa')
+            ->setHtmlAttribute('autocomplete', 'email')
+            ->setHtmlAttribute('class', 'form-control')
             ->setDefaultValue('');
 
         $form->addHidden('d_counter', '')
@@ -662,75 +654,75 @@ class HomepagePresenter extends Presenter
 
         for ($i = 1; $i <= 20; $i++) {
             $form->addSelect("d_form$i", 'Dlžník', $optionsPerson)
-                ->setAttribute('class', 'form-control person-select');
+                ->setHtmlAttribute('class', 'form-control person-select');
 
             $form->addText("d_name$i", 'Meno a priezivsko')
-                ->setAttribute('placeholder', 'Meno a priezvisko dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Meno a priezvisko dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_date_of_birdth$i", 'Dátum narodenia')
-                ->setAttribute('placeholder', 'Dátum narodenia dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Dátum narodenia dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_rc$i", 'Rodné číslo')
-                ->setAttribute('placeholder', 'Rodné číslo')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Rodné číslo')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_address$i", 'Adresa')
-                ->setAttribute('placeholder', 'Adresa trvalého bydliska dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Adresa trvalého bydliska dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_home$i", 'Bydlisko')
-                ->setAttribute('placeholder', 'Aktuálne bydlisko dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Aktuálne bydlisko dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_citizenship$i", 'Občianstvo')
-                ->setAttribute('placeholder', 'Občianstvo dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Občianstvo dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_company$i", 'Názov firmy')
-                ->setAttribute('placeholder', 'Vyplňte názov firmy dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte názov firmy dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_ico$i", 'IČO')
-                ->setAttribute('placeholder', 'Vyplňte IČO dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte IČO dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_residence$i", 'Sídlo')
-                ->setAttribute('placeholder', 'Vyplňte sídlo dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte sídlo dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_representative$i", 'Zástupca')
-                ->setAttribute('placeholder', 'Vyplňte zástupcu dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte zástupcu dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_other$i", 'Iné údaje')
-                ->setAttribute('placeholder', 'Vyplňte iné údaje')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte iné údaje')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_fop_other$i", 'Iné údaje')
-                ->setAttribute('placeholder', 'Vyplňte iné údaje')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte iné údaje')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_po_company$i", 'Názov firmy')
-                ->setAttribute('placeholder', 'Vyplňte názov firmy dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte názov firmy dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_po_ico$i", 'IČO')
-                ->setAttribute('placeholder', 'Vyplňte IČO dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte IČO dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_po_residence$i", 'Sídlo')
-                ->setAttribute('placeholder', 'Vyplňte sídlo dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte sídlo dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_po_representative$i", 'Zástupca')
-                ->setAttribute('placeholder', 'Vyplňte zástupcu dlžníka')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte zástupcu dlžníka')
+                ->setHtmlAttribute('class', 'form-control');
 
             $form->addText("d_po_other$i", 'Iné údaje')
-                ->setAttribute('placeholder', 'Vyplňte iné údaje')
-                ->setAttribute('class', 'form-control');
+                ->setHtmlAttribute('placeholder', 'Vyplňte iné údaje')
+                ->setHtmlAttribute('class', 'form-control');
         }
 
         $form->addReCaptcha(
@@ -748,7 +740,7 @@ class HomepagePresenter extends Presenter
     {
         $values = $form->getValues();
 
-        if(!$_POST['g-recaptcha-response']){
+        if(empty($_POST['g-recaptcha-response'])){
             exit;
         }
 
@@ -758,7 +750,7 @@ class HomepagePresenter extends Presenter
         foreach($priceKeys as $key){
             if(isset($values[$key])){
                 if ($values[$key] != "") {
-                    $currency = $_POST['currency-' . $key] == 'other_currency' ? $_POST['currency-other-' . $key] : $_POST['currency-' . $key];
+                    $currency = ($_POST['currency-' . $key] ?? '') == 'other_currency' ? ($_POST['currency-other-' . $key] ?? '') : ($_POST['currency-' . $key] ?? '');
                     $values[$key] = $this->transformPrice($values[$key]) . ' ' . $currency;
                 }
             }
@@ -809,7 +801,7 @@ class HomepagePresenter extends Presenter
             ->setFile($file);
 
         $template->form = $values;
-        $html = $template->__toString();
+        $html = $template->renderToString();
 
 
         $mpdf = new \Mpdf\Mpdf();

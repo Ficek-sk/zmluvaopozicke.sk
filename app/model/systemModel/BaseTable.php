@@ -8,7 +8,7 @@ abstract class BaseTable
 {
     use SmartObject;
 
-    /** @var \Nette\Database\Context */
+    /** @var \Nette\Database\Explorer */
     protected $context;
 
     /** @var \Nette\Database\Connection */

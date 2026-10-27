@@ -32,7 +32,7 @@ services:
     userRepository: UserRepository
     dlznikRepository: DlznikRepository
     contractReviewManager: ContractReviewManager
-    - App\Model\SystemModel\SystemContext(@database.systemDatabase.context)
+    - App\Model\SystemModel\SystemContext(@database.systemDatabase.explorer)
     - App\Model\SystemModel\LegalCounselQuestion
     - App\Model\SystemModel\LegalCounselQuestionAnswer
     - App\Model\SystemModel\LegalCounselQuestionRelatedUrl
@@ -42,6 +42,9 @@ services:
         setup:
             - register('addReCaptcha')
         tags: [run]
+
+extensions:
+    run: App\Modules\DI\RunTagExtension
 
 includes:
     - parameters.neon

@@ -1,5 +1,6 @@
 <?php
 
+use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Mail\Message;
 
 class EmailSender extends Repository
@@ -7,25 +8,57 @@ class EmailSender extends Repository
 
     private $email;
 
-    public function __construct(\Nette\Database\Context $db, \Nette\DI\Container $container)
+    /** @var TemplateFactory */
+    private $templateFactory;
+
+    public function __construct(\Nette\Database\Explorer $db, \Nette\DI\Container $container, TemplateFactory $templateFactory)
     {
         parent::__construct($db);
         $this->email = $container->getParameters()['email'];
+        $this->templateFactory = $templateFactory;
     }
 
+    /**
+     * @param string $templateFile
+     * @return \Nette\Bridges\ApplicationLatte\Template
+     */
+    public function createTemplate($templateFile)
+    {
+        $template = $this->templateFactory->createTemplate();
+        $template->setFile($templateFile);
+
+        return $template;
+    }
+
+    /**
+     * @return Nette\Mail\SmtpMailer
+     */
+    private function createMailer()
+    {
+        return new Nette\Mail\SmtpMailer(
+            (string) $this->email['host'],
+            (string) $this->email['username'],
+            (string) $this->email['password'],
+            null,
+            'ssl'
+        );
+    }
 
     public function sendEmail($emailAddress, $replyTo, $subject, $template)
     {
         try {
-            $mailer = new Nette\Mail\SmtpMailer(['host' => $this->email['host'], 'username' => $this->email['username'], 'password' => $this->email['password'], 'secure' => 'ssl']);
+            $mailer = $this->createMailer();
 
             $mail = new Message;
 
             $mail->setFrom($this->email['setFrom'], 'Zmluvaopozicke.sk')
                 ->addTo($emailAddress)
-                ->addReplyTo($replyTo)
                 ->setSubject($subject)
-                ->setHtmlBody($template);
+                ->setHtmlBody((string) $template);
+
+            if ($replyTo) {
+                $mail->addReplyTo($replyTo);
+            }
 
             $mailer->send($mail);
 
@@ -38,8 +71,7 @@ class EmailSender extends Repository
     public function sendNewMessage($message)
     {
         $templateFile = dirname(__DIR__) . '/templates/Emails/message.latte';
-        $template = new \Nette\Bridges\ApplicationLatte\Template(new \Latte\Engine());
-        $template->setFile($templateFile);
+        $template = $this->createTemplate($templateFile);
         $template->message = $message;
         $replyTo = $message->email;
 
@@ -65,8 +97,7 @@ class EmailSender extends Repository
     public function sendForm($sendEmail, $pdffile, $contractId)
     {
         $templateFile = dirname(__DIR__) . '/templates/Emails/contract.latte';
-        $template = new \Nette\Bridges\ApplicationLatte\Template(new \Latte\Engine());
-        $template->setFile($templateFile);
+        $template = $this->createTemplate($templateFile);
         $template->contractId = $contractId;
         $emailAddress = $sendEmail;
         $subject = "Zmluvaopozicke.sk - Vaša zmluva o pôžičke";
@@ -87,7 +118,7 @@ class EmailSender extends Repository
         $template->facebook = "https://www.facebook.com/advokat.bratislava.judr.ficek";
 
         try {
-            $mailer = new Nette\Mail\SmtpMailer(['host' => $this->email['host'], 'username' => $this->email['username'], 'password' => $this->email['password'], 'secure' => 'ssl']);
+            $mailer = $this->createMailer();
 
             $mail = new Message;
             $mail->addAttachment($pdffile);
@@ -95,7 +126,7 @@ class EmailSender extends Repository
             $mail->setFrom($this->email['setFrom'], 'Zmluvaopozicke.sk')
                 ->addTo($emailAddress)
                 ->setSubject($subject)
-                ->setHtmlBody($template);
+                ->setHtmlBody((string) $template);
 
             $mailer->send($mail);
 

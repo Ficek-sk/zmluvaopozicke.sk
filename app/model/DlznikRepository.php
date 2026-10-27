@@ -1,8 +1,5 @@
 <?php
 
-use Nette\Templating,
-	Nette\Latte;
-
 /**
  * Tabulka form
  *

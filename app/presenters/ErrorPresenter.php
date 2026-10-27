@@ -8,8 +8,7 @@ use Tracy\Debugger;
 class ErrorPresenter extends BasePresenter {
 
 	/**
-	 * @param  Exception
-	 * @return void
+	 * @param  \Throwable $exception
 	 */
 	public function renderDefault($exception)	{
 		if ($this->isAjax()) { // AJAX request? Just note this error in payload.

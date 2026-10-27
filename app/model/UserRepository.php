@@ -1,8 +1,5 @@
 <?php
 
-use Nette\Templating,
-	Nette\Latte;
-
 /**
  * Tabulka user
  *
@@ -27,16 +24,14 @@ class UserRepository extends Repository
     $this->getTable()->where(['id' => $user->id])->update(['password_hash' => base64_encode(Authenticator::calculateHash($password,$salt)), 'password_salt' => $salt]);
 
     $templateFile = dirname(__DIR__) . '/templates/Emails/forgotten.latte';
-		$template = new Templating\FileTemplate($templateFile);
-		$template->registerFilter(new Latte\Engine);
-		$template->registerHelperLoader('Templating\Helpers::loader');
+		$template = $emailSender->createTemplate($templateFile);
 		$template->password = $password;
 		$template->name = $user->name;
 
 		$emailAddress=$user->email;
 		$subject = "Zmluva o pôžičke - Obnovenie hesla";
 
-		$emailSender->sendEmail($emailAddress, $subject, $template);
+		$emailSender->sendEmail($emailAddress, null, $subject, $template);
 
 		//return $password; /// VYMAZAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	    //$emailSender->sendPassword($user, $password);

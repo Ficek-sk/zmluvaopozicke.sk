@@ -8,10 +8,10 @@ abstract class Repository {
   /** @var Nette\Database\Connection */
   protected $connection;
 
-    /** @var Nette\Database\Context */
+    /** @var Nette\Database\Explorer */
     protected $context;
 
-  public function __construct(\Nette\Database\Context $context) {
+  public function __construct(\Nette\Database\Explorer $context) {
     $this->context = $context;
   }
 

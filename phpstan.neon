@@ -1,0 +1,15 @@
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon
+
+parameters:
+	level: 2
+	phpVersion:
+		min: 80100
+		max: 80500
+	paths:
+		- app
+	tmpDir: temp/phpstan
+	ignoreErrors:
+		# registered at runtime by RecaptchaFormExtension::register() via Container::extensionMethod()
+		- '#Call to an undefined method Nette\\Application\\UI\\Form::addReCaptcha\(\)#'

@@ -50,9 +50,9 @@
           </p>
         {/if}
 
-        {php $i = 1 }
+        {do $i = 1 }
         {foreach $dlznici as $dlznik}
-        {php $i++ }
+        {do $i++ }
           {if $form->d_form == "fon"}
             <p>Dlžník {$i}: {$dlznik->name}, nar.: {$dlznik->date_of_birdth}, bydlisko: {$dlznik->home}, občianstvo: {$dlznik->citizenship}
 

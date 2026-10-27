@@ -94,7 +94,7 @@
                         <li n:foreach="$recentQuestions as $recentQuestion">
                             <a href="/{$recentQuestion['slug']}">
                                 <span class="recent-question-name">{$recentQuestion['name']}</span>
-                                <span class="recent-question-date">{$recentQuestion['answered']|date:'%d.%m.%Y'}</span>
+                                <span class="recent-question-date">{$recentQuestion['answered']|date:'d.m.Y'}</span>
                             </a>
                         </li>
                     </ul>

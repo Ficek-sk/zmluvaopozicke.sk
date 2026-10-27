@@ -2,17 +2,17 @@
 
 namespace App\Model\SystemModel;
 
-use Nette\Database\Context;
+use Nette\Database\Explorer;
 
 class SystemContext
 {
-    /** @ Context $context */
+    /** @var Explorer */
     public $context;
 
     /**
-     * @param Context $context
+     * @param Explorer $context
      */
-    public function __construct(Context $context)
+    public function __construct(Explorer $context)
     {
         $this->context = $context;
     }
